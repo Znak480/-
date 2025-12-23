@@ -1,0 +1,61 @@
+Options -Indexes 
+ErrorDocument 404 /404.php
+
+    # Удалить www
+RewriteCond %{ENV:HTTPS} on
+    #Если включен https
+RewriteRule .* - [E=SSL:s]
+    #То создаем переменную  ssl с текстом s
+RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+    # Проверяем, содержит ли домен www в начале URL.
+RewriteRule ^(.*)$ http%{ENV:SSL}://%1/$1 [R=301,L]
+    # Перенаправляем удаляем www
+
+
+<IfModule mod_php5.c>
+	php_flag allow_call_time_pass_reference 1
+	php_flag session.use_trans_sid off
+
+	#php_value display_errors 1
+
+	#php_value mbstring.internal_encoding UTF-8
+</IfModule>
+
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine On
+# Редирект с www на без www
+RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+# Удаляем index.php из адреса
+RewriteCond %{THE_REQUEST} ^GET.*index\.php [NC]
+RewriteCond %{REQUEST_URI} ^/index$ [OR]
+# Не применяем к админке, иначе перестает работать страница Highload-блоки
+RewriteCond %{REQUEST_URI} !/bitrix/admin/.* [NC]
+RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-l 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !/bitrix/urlrewrite.php$ 
+RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L] 
+RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+</IfModule> 
+
+<IfModule mod_dir.c>
+	DirectoryIndex index.php index.html
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive on
+	ExpiresByType image/jpeg "access plus 3 day"
+	ExpiresByType image/gif "access plus 3 day"
+</IfModule>
+
+SetEnvIfNoCase User-Agent "ClaudeBot|Amazonbot|BlackWidow|AhrefsBot|BLEXBot|MBCrawler|YaK|niraiya\.com|megaindex\.ru|megaindex\.com|Megaindex|MJ12bot|SemrushBot|cloudfind|CriteoBot|GetIntent Crawler|SafeDNSBot|SeopultContentAnalyzer|serpstatbot|LinkpadBot|Slurp|DataForSeoBot|Rome Client|Scrapy|FlipboardRSS|FlipboardProxy|ZoominfoBot|SeznamBot|Seekport Crawler" blocked_bot
+<Limit GET POST HEAD>
+Order Allow,Deny
+Allow from all
+Deny from env=blocked_bot
+</Limit>

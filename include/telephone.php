@@ -1,0 +1,1 @@
+<div class="opening-times">9:00–20:00</div>			<div class="number"><span>+7 (3852)</span> 36-40-80</div>

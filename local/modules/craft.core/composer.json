@@ -1,0 +1,15 @@
+{
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Craft\\Core\\": "lib"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Craft\\Tests\\": "tests/"
+    }
+  }
+}

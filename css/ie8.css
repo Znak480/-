@@ -1,0 +1,203 @@
+	html, body {
+		min-width: 768px;
+		padding-left: 0px;
+	}
+
+	.wrapper {
+		width: 100%;
+	}
+
+	.top-menu {
+		width: auto;
+		padding-left: 30px;
+	}
+
+		.top-menu ul li {
+			margin-right: 20px;
+		}
+
+	.header {
+		width: 100%;
+		height: 190px;
+	}
+
+		.header .phone {
+			position: absolute;
+			top: 59px;
+			left: 300px;
+		}
+
+		.header .consultation {
+			position: absolute;
+			top: 120px;
+			left: auto;
+			right: 30px;
+			width: 210px;
+			height: 40px;
+			line-height: 40px;
+			z-index: 10;
+		}
+
+		.header .cart {
+			position: absolute;
+			top: 0px;
+			right: 30px;
+		}
+
+		.header .search {
+			position: relative;
+			top: 120px;
+			left: 0;
+			padding: 0px 260px 0 30px;
+		}
+
+			.header .search input[type="text"] {
+				display: block;
+				width: 100%;
+				height: 40px;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+			}
+
+			.header .search input[type="submit"] {
+				position: absolute;
+				top: 5px;
+				left: auto;
+				right: 265px;
+			}
+
+/*	*/
+
+	.lb {
+		float: none;
+		width: auto;
+	}
+
+	.rb {
+		float: none;
+		width: auto;
+	}
+
+		.catalog {
+			display: block !important;
+			position: static;
+			width: auto;
+		}
+
+			.catalog .title {
+				height: 50px;
+				line-height: 50px;
+				cursor: pointer;
+			}
+
+			.catalog ul.parent {
+				display: none;
+				margin-top: 0;
+			}
+
+				.catalog li.opened {
+					background-color: rgb(81,135,175);
+				}
+
+				.catalog li.parent .sub-catalog {
+					position: static;
+					width: auto;
+				}
+
+.collection:nth-child(4n+1) {
+    margin-right: 20px !important;
+}
+
+		.three-Things {
+			display: none;
+			position: static;
+			margin-top: 20px;
+		}
+
+			.three-Things .thing {
+				width: auto;
+			}
+
+				.three-Things .thing h2 {
+					padding-top: 54px;
+				}
+
+		.banner {
+			margin-left: 0px;
+		}
+
+		h2.din {
+			text-align: center;
+		}
+
+		.shares {
+			margin-top: 10px;
+			margin-left: 0px;
+			padding: 0 15px 0 15px;
+		}
+
+			.shares ul li {
+				width: 33.3333%;
+				margin-left: 0px;
+				padding: 0 15px 0 15px;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+			}
+
+		.services {
+			height: auto;
+			margin-top: 30px;
+			margin-left: 0px;
+			padding: 0 30px 10px 30px;
+		}
+
+		.advice {
+			margin-top: 30px;
+			margin-left: 0px;
+			padding: 0 30px 10px 10px;
+		}
+
+		.footer {
+			height: 220px;
+		}
+
+			.footer .company {
+				left: 30px;
+			}
+
+			.footer .store {
+				left: 220px;
+			}
+
+			.footer .info {
+				left: 410px;
+			}
+
+			.footer .subscribe {
+				position: absolute;
+				top: 155px;
+				right: auto;
+				left: 30px;
+			}
+
+			.footer .social {
+				position: absolute;
+				left: auto;
+				right: 30px;
+				top: 155px;
+				font-size: 0px;
+			}
+
+		.post-footer {
+			padding-left: 30px;
+		}
+
+#vacancies {
+	position: static;
+}
+
+.map {
+	position: static !important;
+}

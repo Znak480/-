@@ -1,0 +1,68 @@
+.profile-block-hidden
+{
+	display: none;
+}
+
+.profile-block-shown
+{
+	display:block;
+}
+
+.profile-table
+{
+	width: 100%;
+}
+
+.profile-link
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+
+.profile-table td {
+	vertical-align: top;
+	width:50%;
+}
+
+div.bx-auth-profile input.bx-auth-input {vertical-align:middle;}
+div.bx-auth-profile span.bx-auth-secure {background-color:#FFFAE3; border:1px solid #DEDBC8; padding:2px; display:inline-block; vertical-align:middle;}
+div.bx-auth-profile div.bx-auth-secure-icon {background-image:url(images/sec.png); background-repeat:no-repeat; background-position:center; width:19px; height:18px;}
+div.bx-auth-profile div.bx-auth-secure-unlock {background-image:url(images/sec-unlocked.png);}
+
+.bx-authform-formgroup-container {
+	margin-bottom: 25px;
+}
+.bx-authform-content-container, .bx-authform-label-container {
+	font-size: 13px;
+	color: #5a6c77;
+	padding-bottom: 2px;
+}
+.bx-authform-input-container {
+	position: relative;
+}
+.bx-authform-input-container input[type="text"], .bx-authform-input-container input[type="password"] {
+	display: block;
+	width: 100%;
+	font-size: 18px;
+	height: 38px;
+	margin: 0;
+	padding: 0 4px;
+	border: 1px solid #CCD5DB;
+	border-radius: 2px;
+	background: #f8fafc;
+	outline: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.signup__form {
+	margin: 0 0 25px;
+	max-width: 500px;
+}
+
+.text-small{
+	font-size: 14px;
+}
