@@ -2,22 +2,13 @@
 
 session_start();
 
-include($_SERVER['DOCUMENT_ROOT'] . "/bitrix/php_interface/regional.php");
+if(file_exists(__DIR__ . "/regional.php"))
+{
+	require_once __DIR__ . "/regional.php";
+}
 
 $fileRoute = '/var/www/u1378845/data/www/u1378845.isp.regruhosting.ru/cart/log.txt';
 $fileRoute2 = '/var/www/u1378845/data/www/u1378845.isp.regruhosting.ru/cart/log2.txt';
-
-function debug($data, $die = false)
-{
-	global $USER;
-	//if($USER->IsAdmin()){
-	echo '<pre>' . print_r($data, 1) . '</pre>';
-	if($die)
-	{
-		die();
-	}
-	//}
-}
 
 const NO_SHOW_PROP = ["AKTSIYA_", "SKIDKA_PO_KARTE_", "POISKOVYY_KONTENT"];
 

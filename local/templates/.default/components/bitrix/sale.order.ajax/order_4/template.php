@@ -6,7 +6,7 @@ $APPLICATION->SetAdditionalCSS($templateFolder."/style.css");
 CJSCore::Init(array('fx', 'popup', 'window', 'ajax'));
 ?>
 <div class="container">
-	
+
 
 <div class="data">
 <a name="order_form" style="display:none"></a>
@@ -83,26 +83,34 @@ if (!function_exists("cmpBySort"))
 		{
 			?>
 			<script type="text/javascript">
-            
+
             BX.addCustomEvent("onAjaxSuccess", refreshform);
-            
+
             function refreshform()
             {
 //                $('select').styler();
             }
-            
+
 			function submitForm(val)
 			{
-   
-				if(val != 'Y')
+
+				if(val != 'Y'){
 					BX('confirmorder').value = 'N';
+				}
+
+                if(!$('[data-agree-checkbox]').is(':checked')){
+                    $('[data-agree-checkbox] ~ span').addClass('error');
+                    return;
+				}else {
+                    $('[data-agree-checkbox] ~ span').removeClass('error');
+				}
 
 				var orderForm = BX('ORDER_FORM');
 
 				BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
 				BX.submit(orderForm);
-                
-				BX.closeWait();                
+
+				BX.closeWait();
 
 				return true;
 			}
@@ -153,8 +161,8 @@ if (!function_exists("cmpBySort"))
 	//
 	$cnt=0;
 	$arFieldsDefault=array();$arPropsDefault=array();
-	while($ob = $res->GetNextElement()){ 
- 		$arFields = $ob->GetFields();  
+	while($ob = $res->GetNextElement()){
+ 		$arFields = $ob->GetFields();
 		$arProps = $ob->GetProperties();
 		if($cnt==0) {
 			$arFieldsDefault=$arFields;
@@ -203,22 +211,22 @@ if (!function_exists("cmpBySort"))
 			if(strlen($arResult["PREPAY_ADIT_FIELDS"]) > 0)
 				echo $arResult["PREPAY_ADIT_FIELDS"];
 			?>
-            
+
 <!--             <input type="hidden" name="confirmorder" id="confirmorder" value="Y" />
 			<input type="hidden" name="profile_change" id="profile_change" value="N" />
 			<input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y" />
 			<div class="bx_ordercart_order_pay_center">
 				<a href="javascript:void();" onClick="submitForm('Y'); return false;" class="btn btn_size-l btn_main"><?=GetMessage("SOA_TEMPL_BUTTON")?></a>
 			</div> -->
-            
+
 			</div>
 			</div>
 			</div>
-            
+
 			<?if($_POST["is_ajax_post"] != "Y")
 			{
 				?>
-					
+
 				</form>
 				<?
 				if($arParams["DELIVERY_NO_AJAX"] == "N")

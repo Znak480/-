@@ -298,12 +298,19 @@ $(document).ready(function () {
         var reg_mail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         //рег. выражение для телефона
         var reg_phone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
-        currForm.find('input,textarea').each(function () {
-            if ($(this).val() == '' || (reg_mail.test($(this).val().trim()) == false && $(this).attr('name') == 'email') || (reg_phone.test($(this).val()) == false && $(this).attr('name') == 'phone')) {
+        currForm.find('input,textarea,[data-agree-checkbox]').each(function () {
+            if (
+                ($(this).attr('type') =='checkbox' && !$(this).is(':checked'))
+                || $(this).val() == ''
+                || (reg_mail.test($(this).val().trim()) == false && $(this).attr('name') == 'email')
+                || (reg_phone.test($(this).val()) == false && $(this).attr('name') == 'phone')
+            ) {
+                $(this).css('outline', "1px solid red");
                 $(this).css('border', "1px solid red");
                 a = false;
             } else {
                 $(this).css("border", "1px solid rgb(148,150,152)");
+                $(this).css('outline', "none");
             }
         });
         if (a) {
