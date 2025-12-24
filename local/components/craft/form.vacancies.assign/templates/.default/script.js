@@ -28,17 +28,17 @@ function VacancyFeedback() {
                 }
 
             });
+
+
+            var agree = $this.find('[data-agree-checkbox]').prop('checked');
+            if (!agree) {
+                isFormValid = false;
+                $this.find('[data-agree-checkbox]').css('outline', "1px solid red");
+            } else {
+                $this.find('[data-agree-checkbox]').css('outline', "none");
+            }
+
             if (isFormValid) {
-
-                // $form.find('input').each(function () {
-                //     if ($(this).attr('name') != 'undefined' && $(this).attr('name') != 'file')
-                //         formFields.append($(this).attr('name'), $(this).val());
-                //     else if ($(this).attr('name') == 'file') {
-                //         var file = document.querySelector("#vacancies input[name=file]").files[0];
-                //         formFields.append('file', file, $(this).val());
-                //     }
-                // });
-
                 BX.ajax.runComponentAction(
                     'craft:form.vacancies.assign',
                     'execute',

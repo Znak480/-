@@ -300,7 +300,7 @@ $APPLICATION->IncludeComponent(
 	'craft:cookie.agree',
 	'.default',
 	[
-		'TEXT' => 'Мы&nbsp;используем файлы cookie, Яндекс.Метрику и&nbsp;Google Analytics для&nbsp;обеспечения работы сервисов, анализа и&nbsp;улучшения работы сайта. Продолжая пользоваться сайтом, вы&nbsp;соглашаетесь с&nbsp;условиями использования.',
+		'TEXT' => 'Мы&nbsp;используем файлы cookie, Яндекс.Метрику и&nbsp;Google Analytics для&nbsp;обеспечения работы сервисов, анализа и&nbsp;улучшения работы сайта. Продолжая пользоваться сайтом, вы&nbsp;соглашаетесь с&nbsp;<a href="/agreement/" target="_blank">условиями использования</a>.',
 	],
 	false,
 	['HIDE_ICONS' => 'Y']
