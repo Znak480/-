@@ -27,7 +27,7 @@ if(mb_strlen($text) <= 0 || $arResult['IS_HIDE'])
 
 
 <div class="cookie-agree " data-accept-cookie>
-	<div class="cookie-agree-wrapper content">
+	<div class="cookie-agree-wrapper">
 		<div class="cookie-agree__text">
 			<?=htmlspecialchars_decode($text);?>
 		</div>
