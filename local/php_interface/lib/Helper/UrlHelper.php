@@ -28,7 +28,7 @@ class UrlHelper
 		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
 	}
 
-	public static function domain(): string
+	public static function domain(): ?string
 	{
 		return $_SERVER['SERVER_NAME'];
 	}
