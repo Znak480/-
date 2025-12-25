@@ -23,6 +23,16 @@
     padding: 10px;
   }
 }
+@media (min-width: 640px) and (max-width: 840px) {
+  .cookie-agree {
+    transform: translate(50%, -5em);
+  }
+}
+@media (min-width: 588px) and (max-width: 640px) {
+  .cookie-agree {
+    transform: translate(50%, -17em);
+  }
+}
 .cookie-agree-wrapper {
   display: flex;
   gap: 20px;
