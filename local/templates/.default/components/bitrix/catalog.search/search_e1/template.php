@@ -66,6 +66,15 @@ global $currentCity;
 		$elementIDS=array();
 		global $DB;
 		$sortArray=array();
+		$synS=\Craft\Factory\SynonymServiceFactory::getService();
+
+		$s=   $synS->findSynonyms($phrase);
+		$s = array_filter($s,fn($syn)=> $phrase != $syn);
+
+		$phrase .= ' '.implode(' ', $s);
+
+
+
 		//
 		// прочитаем файл замены
 		//
@@ -85,6 +94,8 @@ global $currentCity;
 		// сначала ищем полное вхождение всей строки если несколько слов в запросе. это будет максимально релевантный результат, например ищут скопированное имя товара
 		//
 		$arQ=explode(' ',$phrase);
+
+		\Bitrix\Main\Diag\Debug::dump($arQ);
 		//
 		//
 		if(count($arQ)>1&&strlen($phrase)>5) {
