@@ -95,8 +95,6 @@ global $currentCity;
 		//
 		$arQ=explode(' ',$phrase);
 
-		\Bitrix\Main\Diag\Debug::dump($arQ);
-		//
 		//
 		if(count($arQ)>1&&strlen($phrase)>5) {
 			$results = $DB->Query("SELECT ID from b_iblock_element where ((NAME like '$phrase%') or (NAME like '% $phrase%') or (NAME like '%-$phrase%')) and IBLOCK_ID=$iblock and ACTIVE='Y'");
