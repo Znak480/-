@@ -69,10 +69,9 @@ global $currentCity;
 		$synS=\Craft\Factory\SynonymServiceFactory::getService();
 
 		$s=   $synS->findSynonyms($phrase);
-		$s = array_filter($s,fn($syn)=> $phrase != $syn);
+		$s = array_filter($s,fn($syn)=> mb_strtolower($phrase) != $syn);
 
 		$phrase .= ' '.implode(' ', $s);
-
 
 
 		//
@@ -95,6 +94,8 @@ global $currentCity;
 		//
 		$arQ=explode(' ',$phrase);
 
+		\Bitrix\Main\Diag\Debug::dump($arQ);
+		//
 		//
 		if(count($arQ)>1&&strlen($phrase)>5) {
 			$results = $DB->Query("SELECT ID from b_iblock_element where ((NAME like '$phrase%') or (NAME like '% $phrase%') or (NAME like '%-$phrase%')) and IBLOCK_ID=$iblock and ACTIVE='Y'");
@@ -124,6 +125,7 @@ global $currentCity;
 				$whereStr.="(".$wherePart.") and ";
 			}
 		}
+		\Bitrix\Main\Diag\Debug::dump("SELECT ID from b_iblock_element where $whereStr IBLOCK_ID=$iblock and ACTIVE='Y'");
 		$results = $DB->Query("SELECT ID from b_iblock_element where $whereStr IBLOCK_ID=$iblock and ACTIVE='Y'");
 		$cnt=0;
 		while($row = $results->Fetch()){

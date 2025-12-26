@@ -7,6 +7,7 @@ class SearchSynonym extends EO_SearchSynonym
 
 	public function setSearchItemsEx(array $items): SearchSynonym
 	{
+		$items = array_map(fn(string $item) => mb_strtolower($item), $items);
 		$this->setSearchItems(json_encode($items));
 		return $this;
 	}

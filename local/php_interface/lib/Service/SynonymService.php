@@ -17,6 +17,7 @@ class SynonymService
 	public function findSynonyms(string $phrase): array
 	{
 		$synonyms = [];
+		$phrase = mb_strtolower($phrase);
 		$models = $this->searchEngine->findAllByPhrase($phrase);
 
 		foreach($models as $model)
