@@ -94,7 +94,6 @@ global $currentCity;
 		//
 		$arQ=explode(' ',$phrase);
 
-		\Bitrix\Main\Diag\Debug::dump($arQ);
 		//
 		//
 		if(count($arQ)>1&&strlen($phrase)>5) {
