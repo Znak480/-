@@ -174,3 +174,13 @@ try{document.form_auth.USER_LOGIN.focus();}catch(e){}
 <?endif?>
 </script>
 
+
+<style>
+    .error, .error a{
+        color:red;
+    }
+
+    .error input{
+        outline:1px red solid;
+    }
+</style>
