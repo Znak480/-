@@ -99,7 +99,8 @@ new BX.PhoneAuth({
 
 <?elseif(!$arResult["SHOW_EMAIL_SENT_CONFIRMATION"]):?>
 
-	<form method="post" action="<?=$arResult["AUTH_URL"]?>" name="bform" enctype="multipart/form-data" onSubmit="$('#fieldlogin').val($('#fieldemail').val());">
+	<form data-reg-form method="post" action="<?=$arResult["AUTH_URL"]?>" name="bform" enctype="multipart/form-data" onSubmit="$('#fieldlogin').val($('#fieldemail').val()
+	);">
 		<input type="hidden" name="AUTH_FORM" value="Y" />
 		<input type="hidden" name="TYPE" value="REGISTRATION" />
 
@@ -237,6 +238,22 @@ $APPLICATION->IncludeComponent(
 				);?>
 			</div>
 		</div>
+
+		<div class="bx-authform-formgroup-container">
+			<div style="max-width:100%;">
+				<input type="checkbox" value="Y" name="agree" data-agree-checkbox>
+				Принимаю условия
+				<a href="/agreement/" target="_blank">Пользовательского соглашения</a>
+				, и соглашаюсь с
+				<a href="/personal-data/" target="_blank">Политикой
+					обработки и
+					использования
+					персональных
+					данных
+				</a>
+			</div>
+		</div>
+
 		<div class="bx-authform-formgroup-container">
 			<input type="submit" class="btn btn-primary" name="Register" value="<?=GetMessage("AUTH_REGISTER")?>" />
 		</div>
@@ -259,9 +276,34 @@ $APPLICATION->IncludeComponent(
 
 <script type="text/javascript">
 document.bform.USER_NAME.focus();
+
+document.querySelectorAll('[data-reg-form]').forEach((el)=>{
+
+    el.addEventListener('submit',function(event){
+        let input = this.querySelector('[data-agree-checkbox]');
+        if(input){
+            if(!input.checked){
+                event.preventDefault();
+
+                input.parentNode.classList.add('error');
+			}
+		}
+	});
+
+})
 </script>
 
 <?endif?>
 
 </noindex>
 </div>
+
+<style>
+	.error, .error a{
+		color:red;
+	}
+
+	.error input{
+		outline:1px red solid;
+	}
+</style>

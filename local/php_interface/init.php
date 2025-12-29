@@ -1,5 +1,7 @@
 <?php
 
+ini_set("memory_limit", "-1");
+
 use Bitrix\Main\Loader;
 
 if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/wsrubi.smtp/classes/general/wsrubismtp.php"))

@@ -36,6 +36,15 @@ function OptovikamPrices() {
                 $this.find('.checkbox').css('color', "rgb(42,45,50)");
             }
 
+            var agree = $this.find('[data-agree-checkbox]').prop('checked');
+
+            if (!agree) {
+                isFormValid = false;
+                $this.find('[data-agree-checkbox]').css('outline', "1px solid red");
+            } else {
+                $this.find('[data-agree-checkbox]').css('outline', "none");
+            }
+
             if (isFormValid) {
                 BX.ajax.runComponentAction(
                     'craft:form.optovikam.prices',

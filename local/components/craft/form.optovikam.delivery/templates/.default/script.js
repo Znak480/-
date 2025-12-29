@@ -29,14 +29,22 @@ function PriceDeliveryHandler() {
             });
 
             var check = $this.find('input[name=check]').prop('checked');
-
             if (!check) {
                 isFormValid = false;
                 $this.find('.checkbox').css('color', "red");
             } else {
-
                 $this.find('.checkbox').css('color', "rgb(42,45,50)");
             }
+
+
+            var agree = $this.find('[data-agree-checkbox]').prop('checked');
+            if (!agree) {
+                isFormValid = false;
+                $this.find('[data-agree-checkbox]').css('outline', "1px solid red");
+            } else {
+                $this.find('[data-agree-checkbox]').css('outline', "none");
+            }
+
             if (isFormValid) {
 
                 BX.ajax.runComponentAction(

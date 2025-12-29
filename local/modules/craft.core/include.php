@@ -21,8 +21,7 @@ if(file_exists($jsConfigPath))
 	include_once $jsConfigPath;
 }
 
-function craftFormUnInstallEvent()
-{
-	$GLOBALS["APPLICATION"]->ThrowException('Модуль craft.user не может работать без модуля craft.form', "JEDI_USER_DEPENDES_JEDI_FORM");
-	return false;
-}
+
+define('CRAFT_DEVELOP_ADMIN_URL_SYNONYMS_LIST', '/bitrix/admin/craft_developer_search_synonyms.php');
+
+define('CRAFT_DEVELOP_ADMIN_URL_SYNONYMS_EDIT', '/bitrix/admin/craft_developer_search_synonyms_edit.php');

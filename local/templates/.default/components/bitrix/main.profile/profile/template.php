@@ -18,9 +18,9 @@ global $USER;
 
 
 			<div class="mb-4">
-				<p><?ShowError($arResult["strProfileError"]);?></p>	
+				<p><?ShowError($arResult["strProfileError"]);?></p>
 			</div>
-			
+
 
 
 
@@ -100,10 +100,10 @@ global $USER;
 <!--						</div>-->
 <!--					</div>-->
 
-		                
 
 
-							<? 
+
+							<?
 								if($arResult["arUser"]["EXTERNAL_AUTH_ID"] == '')
 								{
 								?>
@@ -143,10 +143,10 @@ global $USER;
 							<!-- <input type="submit" class="btn btn_outline btn_size-l"  name="reset" value="<?echo GetMessage("MAIN_RESET")?>"> -->
 	                    </div>
 	                </form>
-	                                                    
+
 	            </div>
 
-	                                        
+
 	</div>
 <!-- </div> -->
 
@@ -159,20 +159,20 @@ global $USER;
 			if (strlen($arResult["arUser"]["TIMESTAMP_X"])>0)
 			{
 				?>
-				
+
 					<b><?=Loc::getMessage('LAST_UPDATE')?></b>
 					<?=$arResult["arUser"]["TIMESTAMP_X"]?>
-				
+
 				<?
 			}
 
 			if (strlen($arResult["arUser"]["LAST_LOGIN"])>0)
 			{
 				?>
-				
+
 					<b><br/><?=Loc::getMessage('LAST_LOGIN')?></b>
 					<?=$arResult["arUser"]["LAST_LOGIN"]?>
-				
+
 				<?
 			}
 		}
@@ -182,7 +182,10 @@ global $USER;
 
 
 
-<?/* <div class="bx_profile">
+
+<?php
+/*
+ <div class="bx_profile">
 	<?
 	ShowError($arResult["strProfileError"]);
 
@@ -310,4 +313,6 @@ global $USER;
 		?>
 	</div>
 
-</div> -->
+</div>
+ * */
+?>

@@ -1,4 +1,4 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die(); ?>
 <?
 $bDefaultColumns = $arResult["GRID"]["DEFAULT_COLUMNS"];
 $colspan = ($bDefaultColumns) ? count($arResult["GRID"]["HEADERS"]) : count($arResult["GRID"]["HEADERS"]) - 1;
@@ -8,7 +8,7 @@ $bPriceType = false;
 $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name and picture column in one column
 ?>
 
-<?/*$APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "basket_in_order", Array(
+<? /*$APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "basket_in_order", Array(
 	"ACTION_VARIABLE" => "basketAction",	// 
 		"ADDITIONAL_PICT_PROP_1" => "-",	// 
 		"ADDITIONAL_PICT_PROP_2" => "-",	// 
@@ -76,8 +76,7 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 		"COMPONENT_TEMPLATE" => ".default"
 	),
 	false
-);*/?>
-
+);*/ ?>
 
 
 <div id="basket-root" class="bx-basket bx-blue bx-step-opacity" style="opacity: 1; padding: 0px;">
@@ -94,109 +93,126 @@ $bShowNameWithPicture = ($bDefaultColumns) ? true : false; // flat to show name 
 		</div>
 	</div -->
 
-		<div class="row" id="orderbasketcontent" style="display:none">
-			<div class="col-xs-12" style="width: 100%">
-<h2>Ваша корзина</h2>
+	<div class="row" id="orderbasketcontent" style="display:none">
+		<div class="col-xs-12" style="width: 100%">
+			<h2>Ваша корзина</h2>
 
-				<div class="basket-items-list-wrapper basket-items-list-wrapper-height-fixed basket-items-list-wrapper-light basket-items-list-wrapper-compact" id="basket-items-list-wrapper">
-					<div class="basket-items-list-container" id="basket-items-list-container" style="min-height: 347px;">
-						<div class="basket-items-list-overlay" id="basket-items-list-overlay" style="display: none;"></div>
-						<div class="basket-items-list" id="basket-item-list" style="min-height: 347px;">
-							<div class="basket-search-not-found" id="basket-item-list-empty-result" style="display: none;">
-								<div class="basket-search-not-found-icon"></div>
-								<div class="basket-search-not-found-text">
-								По данному запросу товаров не найдено								</div>
+			<div class="basket-items-list-wrapper basket-items-list-wrapper-height-fixed basket-items-list-wrapper-light basket-items-list-wrapper-compact"
+				 id="basket-items-list-wrapper">
+				<div class="basket-items-list-container" id="basket-items-list-container" style="min-height: 347px;">
+					<div class="basket-items-list-overlay" id="basket-items-list-overlay" style="display: none;"></div>
+					<div class="basket-items-list" id="basket-item-list" style="min-height: 347px;">
+						<div class="basket-search-not-found" id="basket-item-list-empty-result" style="display: none;">
+							<div class="basket-search-not-found-icon"></div>
+							<div class="basket-search-not-found-text">
+								По данному запросу товаров не найдено
 							</div>
-							<!-- <table class="basket-items-list-table" id="basket-item-table"></table> -->
-							<div id="basket-item-table">
+						</div>
+						<!-- <table class="basket-items-list-table" id="basket-item-table"></table> -->
+						<div id="basket-item-table">
 
-						<?foreach ($arResult["GRID"]["ROWS"] as $k => $arData):?>
+							<? foreach($arResult["GRID"]["ROWS"] as $k => $arData): ?>
 
-						<?if (strlen($arData["data"]["DETAIL_PICTURE_SRC"]) > 0):
-							$url = $arData["data"]["DETAIL_PICTURE_SRC"];
-						elseif(strlen($arData["data"]["PREVIEW_PICTURE_SRC"]) > 0):
-							$url = $arData["data"]["PREVIEW_PICTURE_SRC"];
-						else:
-							$url = "/img/no-photo.png";
-						endif;?>
+								<? if(strlen($arData["data"]["DETAIL_PICTURE_SRC"]) > 0):
+									$url = $arData["data"]["DETAIL_PICTURE_SRC"];
+								elseif(strlen($arData["data"]["PREVIEW_PICTURE_SRC"]) > 0):
+									$url = $arData["data"]["PREVIEW_PICTURE_SRC"];
+								else:
+									$url = "/img/no-photo.png";
+								endif; ?>
 
-								<div class="product-full" id="basket-item-<?=$arData['id']?>" data-entity="basket-item" data-id="<?=$arData['id']?>">               
+								<div class="product-full" id="basket-item-<?=$arData['id']?>" data-entity="basket-item" data-id="<?=$arData['id']?>">
 									<a href="<?=$arData['data']['DETAIL_PAGE_URL']?>" class="product-full__img" style="background-image: url(<?=$url?>);"></a>
 									<div class="product-full__info">
 										<a class="product-full__name" href="<?=$arData['data']['DETAIL_PAGE_URL']?>">
 											<?=$arData['data']['NAME']?>
 										</a>
 									</div>
-								<span class="product-full__price" id="basket-item-sum-price-<?=$arData['id']?>">
-									<? if(($arData['data']['PRICE']!=$arData['data']['BASE_PRICE'])) {?>
-										<small style='color:#888'><s><?=$arData['data']['BASE_PRICE_FORMATED']?></s> x <?=$arData['data']['QUANTITY']?></small><br>
-									<? } ?>
-									<?=$arData['data']['PRICE_FORMATED']?> <span style="color:#666">x <?=$arData['data']['QUANTITY']?> <!-- ?=$arData['data']['MEASURE_TEXT']? --></span></span>
+									<span class="product-full__price" id="basket-item-sum-price-<?=$arData['id']?>">
+										<? if(($arData['data']['PRICE'] != $arData['data']['BASE_PRICE'])) { ?>
+											<small style='color:#888'><s><?=$arData['data']['BASE_PRICE_FORMATED']?></s> x <?=$arData['data']['QUANTITY']?></small><br>
+										<? } ?>
+										<?=$arData['data']['PRICE_FORMATED']?>
+										<span style="color:#666">x <?=$arData['data']['QUANTITY']?> <!-- ?=$arData['data']['MEASURE_TEXT']? --></span>
+									</span>
 								</div>
-<!-- ?print_r($arData)? -->
-						<?endforeach;?>
+								<!-- ?print_r($arData)? -->
+							<? endforeach; ?>
 
-
-							</div>
 
 						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-xs-12" style="width: 100%" data-entity="basket-total-block">
-				<div class="basket-checkout-container" data-entity="basket-checkout-aligner">
-					<div class="basket-coupon-section">
-						<div class="basket-coupon-block-field">
-					<!-- a style="margin-top:25px;" href="javascript:" onClick="$('#orderbasketcontent').toggle()" class="btn btn_size-m btn_outline">Показать корзину</a -->
-
-				</div>
-			</div>
-			<div class="basket-checkout-section">
-				<div class="basket-checkout-section-inner">
-					<div class="basket-checkout-block basket-checkout-block-total">
-						<div class="basket-checkout-block-total-inner">
-							<div class="basket-checkout-block-total-title">Итого:</div>
-							<div class="basket-checkout-block-total-description">
-							</div>
-						</div>
-					</div>
-
-					<div class="basket-checkout-block basket-checkout-block-total-price">
-						<div class="basket-checkout-block-total-price-inner">
-							<?if ($arResult['PRICE_WITHOUT_DISCOUNT_VALUE'] > $arResult['ORDER_TOTAL_PRICE']):?>
-								<div class="basket-coupon-block-total-price-old">
-									<?=$arResult['PRICE_WITHOUT_DISCOUNT']?>
-								</div>
-							<?endif;?>
-							<div class="basket-coupon-block-total-price-current" data-entity="basket-total-price">
-								<?=$arResult['ORDER_TOTAL_PRICE_FORMATED']?>
-							</div>
-							<?if ($arResult['PRICE_WITHOUT_DISCOUNT_VALUE'] > $arResult['ORDER_TOTAL_PRICE']):?>
-								<div class="basket-coupon-block-total-price-difference">
-									Экономия <span style="white-space: nowrap;"><?=$arResult['DISCOUNT_PRICE_FORMATED']?></span>
-								</div>
-							<?endif;?>
-
-						</div>
-					</div>
-					<div class="basket-checkout-block basket-checkout-block-btn">
-					<input type="hidden" name="confirmorder" id="confirmorder" value="Y">
-					<input type="hidden" name="profile_change" id="profile_change" value="N">
-					<input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
-					<div class="bx_ordercart_order_pay_center">
-						<a href="javascript:void();" onclick="submitForm('Y'); return false;" class="btn submit-btn">Оформить заказ</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- div class="basket-coupon-alert-section">
-			<div class="basket-coupon-alert-inner">
-			</div>
-		</div -->
 	</div>
-</div>
-</div>
+	<div class="row">
+		<div class="col-xs-12" style="width: 100%" data-entity="basket-total-block">
+			<div class="basket-checkout-container" data-entity="basket-checkout-aligner">
+				<div class="basket-coupon-section">
+					<div class="basket-coupon-block-field">
+						<!-- a style="margin-top:25px;" href="javascript:" onClick="$('#orderbasketcontent').toggle()" class="btn btn_size-m btn_outline">Показать корзину</a -->
+
+					</div>
+				</div>
+				<div class="basket-checkout-section">
+					<div class="basket-checkout-section-inner">
+						<div class="basket-checkout-block basket-checkout-block-total">
+							<div class="basket-checkout-block-total-inner">
+								<div class="basket-checkout-block-total-title">Итого:</div>
+								<div class="basket-checkout-block-total-description">
+								</div>
+							</div>
+						</div>
+
+						<div class="basket-checkout-block basket-checkout-block-total-price">
+							<div class="basket-checkout-block-total-price-inner">
+								<? if($arResult['PRICE_WITHOUT_DISCOUNT_VALUE'] > $arResult['ORDER_TOTAL_PRICE']): ?>
+									<div class="basket-coupon-block-total-price-old">
+										<?=$arResult['PRICE_WITHOUT_DISCOUNT']?>
+									</div>
+								<? endif; ?>
+								<div class="basket-coupon-block-total-price-current" data-entity="basket-total-price">
+									<?=$arResult['ORDER_TOTAL_PRICE_FORMATED']?>
+								</div>
+								<? if($arResult['PRICE_WITHOUT_DISCOUNT_VALUE'] > $arResult['ORDER_TOTAL_PRICE']): ?>
+									<div class="basket-coupon-block-total-price-difference">
+										Экономия
+										<span style="white-space: nowrap;"><?=$arResult['DISCOUNT_PRICE_FORMATED']?></span>
+									</div>
+								<? endif; ?>
+
+							</div>
+						</div>
+						<div class="basket-checkout-block basket-checkout-block-btn">
+							<input type="hidden" name="confirmorder" id="confirmorder" value="Y">
+							<input type="hidden" name="profile_change" id="profile_change" value="N">
+							<input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
+							<div class="bx_ordercart_order_pay_center">
+								<a href="javascript:void();" onclick="submitForm('Y'); return false;" class="btn submit-btn">Оформить заказ</a>
+							</div>
+						</div>
+					</div>
+					<div class="basket-checkout-section-inner cart-agree" >
+						<input type="checkbox" value="Y" name="agree" data-agree-checkbox>
+						<span >Принимаю условия
+							<a href="/agreement/" target="_blank">Пользовательского соглашения</a>
+							, и соглашаюсь с
+							<a href="/personal-data/" target="_blank">Политикой
+								обработки и
+								использования
+								персональных
+								данных
+							</a></span>
+					</div>
+				</div>
+
+				<!-- div class="basket-coupon-alert-section">
+					<div class="basket-coupon-alert-inner">
+					</div>
+				</div -->
+			</div>
+		</div>
+	</div>
 </div>

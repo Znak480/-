@@ -81,10 +81,20 @@ class craft_core extends CModule
 			true,
 			true,
 		);
+
+
+		CopyDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/' . self::DIR_MODULE . '/modules/' . self::MODULE_ID . '/install/admin',
+			$_SERVER['DOCUMENT_ROOT'] . "/bitrix/admin"
+		);
 	}
 
 	function UnInstallFiles()
 	{
+		DeleteDirFiles(
+			$_SERVER["DOCUMENT_ROOT"] . '/' . self::DIR_MODULE . '/modules/' . self::MODULE_ID . '/install/admin',
+			$_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin"
+		);
 	}
 
 	function DoInstall()

@@ -81,6 +81,29 @@
 		<div class="clear">
 		</div>
 	</div>
+
+	<div class="line">
+		<div class="label"></div>
+
+		<div class="input">
+			<div style="max-width:100%;">
+				<input type="checkbox" value="Y" name="agree" data-agree-checkbox>
+				Принимаю условия
+				<a href="/agreement/" target="_blank">Пользовательского соглашения</a>
+				, и соглашаюсь с
+				<a href="/personal-data/" target="_blank">Политикой
+					обработки и
+					использования
+					персональных
+					данных
+				</a>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+
+	<br>
+	<br>
 	<div class="line">
 		<div class="label">
 		</div>

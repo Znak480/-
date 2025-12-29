@@ -1,0 +1,58 @@
+.cookie-agree {
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 0 17.5% 20px 0;
+  width: 100%;
+  z-index: 99;
+  border: 1px solid #da251d;
+  padding: 20px 30px;
+  max-width: 572px;
+
+
+  @media (max-width: 900px) {
+    max-width: 85%;
+    transform: translate(50%, -10px);
+    right: 50%;
+    margin: 0;
+  }
+
+  @media (max-width: 650px) {
+    padding: 10px;
+  }
+
+
+  @media (min-width: 640px) and (max-width: 840px) {
+    transform: translate(50%, -5em);
+  }
+
+  @media (min-width: 588px) and (max-width: 640px) {
+    transform: translate(50%, -17em);
+  }
+
+  &-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 650px) {
+      flex-direction: column;
+    }
+  }
+
+  &__text {
+  }
+
+
+  &__button {
+    cursor: pointer;
+    font-family: var(--second-family);
+    font-weight: 400;
+    font-size: 14px;
+    color: #fff;
+    padding: 10px 20px;
+    background: #da251d;
+  }
+}
