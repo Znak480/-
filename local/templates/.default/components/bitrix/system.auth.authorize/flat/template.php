@@ -50,7 +50,7 @@ $APPLICATION->IncludeComponent("bitrix:socserv.auth.form",
 	<hr class="bxe-light">
 <?endif?>
 
-	<form name="form_auth" method="post" target="_top" action="<?=$arResult["AUTH_URL"]?>">
+	<form data-reg-form name="form_auth" method="post" target="_top" action="<?=$arResult["AUTH_URL"]?>">
 
 		<input type="hidden" name="AUTH_FORM" value="Y" />
 		<input type="hidden" name="TYPE" value="AUTH" />
@@ -105,6 +105,22 @@ document.getElementById('bx_auth_secure').style.display = '';
 			</div>
 		</div>
 <?endif?>
+
+		<div class="bx-authform-formgroup-container">
+			<div style="max-width:100%;">
+				<input type="checkbox" value="Y" name="agree" data-agree-checkbox>
+				Принимаю условия
+				<a href="/agreement/" target="_blank">Пользовательского соглашения</a>
+				, и соглашаюсь с
+				<a href="/personal-data/" target="_blank">Политикой
+					обработки и
+					использования
+					персональных
+					данных
+				</a>
+			</div>
+		</div>
+
 		<div class="bx-authform-formgroup-container">
 			<input type="submit" class="btn btn-primary" name="Login" value="<?=GetMessage("AUTH_AUTHORIZE")?>" />
 		</div>
@@ -130,6 +146,27 @@ document.getElementById('bx_auth_secure').style.display = '';
 <?endif?>
 
 </div>
+
+
+<script type="text/javascript">
+    document.bform.USER_NAME.focus();
+
+    document.querySelectorAll('[data-reg-form]').forEach((el)=>{
+
+        el.addEventListener('submit',function(event){
+            let input = this.querySelector('[data-agree-checkbox]');
+            if(input){
+                if(!input.checked){
+                    event.preventDefault();
+
+                    input.parentNode.classList.add('error');
+                }
+            }
+        });
+
+    })
+</script>
+
 
 <script type="text/javascript">
 <?if ($arResult["LAST_LOGIN"] <> ''):?>
