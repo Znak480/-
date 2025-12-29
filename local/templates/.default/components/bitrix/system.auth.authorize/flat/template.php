@@ -149,8 +149,6 @@ document.getElementById('bx_auth_secure').style.display = '';
 
 
 <script type="text/javascript">
-    document.bform.USER_NAME.focus();
-
     document.querySelectorAll('[data-reg-form]').forEach((el)=>{
 
         el.addEventListener('submit',function(event){
