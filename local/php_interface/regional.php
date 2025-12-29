@@ -22,7 +22,7 @@ while($ob = $res->GetNextElement())
 		$arFieldsDefault = $arFields;
 		$arPropsDefault = $arProps22;
 	}
-	if($arProps22['DOMAIN']['VALUE'] == UrlHelper::subdomain())
+	if($arProps22['DOMAIN']['VALUE'] == UrlHelper::domain())
 	{
 		$currentCity = array_merge($arFields, $arProps22);
 		define("CITY_CODE", $arFields['EXTERNAL_ID']);
