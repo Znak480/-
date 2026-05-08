@@ -381,7 +381,7 @@
 
 .header-fix {
   position: fixed;
-  z-index: 9999999999;
+  z-index: 99;
   left: 0;
   top: -100%;
   width: 100%;
