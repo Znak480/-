@@ -645,6 +645,28 @@ h2.common-sans {
     position: relative;
     margin-left: 330px;
     height: 360px;
+    overflow: visible;
+}
+
+.banner__slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%; 
+}
+
+
+.banner__slides li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.banner__slides li img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .banner ul.big {
@@ -819,6 +841,12 @@ h2.common-sans {
 
 .three-Things .fish {
     background: url(../i/three-Things-2.png) 20px center no-repeat;
+}
+
+.thing_banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .adapTt {
@@ -1233,8 +1261,13 @@ h1.common-din {
     float: left;
     width: 190px;
     margin-right: 20px;
-    //margin-bottom: 55px;
     height: 290px;
+}
+
+.collections-page .collection img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .collections-page .content-block {
