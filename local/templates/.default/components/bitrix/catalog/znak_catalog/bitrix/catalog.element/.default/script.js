@@ -2826,3 +2826,28 @@ window.JCCatalogElement.prototype.allowViewedCount = function(update)
 		this.incViewedCounter();
 };
 })(window);
+
+//Slick слайдер для галлереи товара
+$(document).ready(function(){
+	$('.slider-for').slick({
+		infinite: false,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		arrows: true,
+		fade: true,
+		asNavFor: '.slider-nav',
+	});
+	
+	$('.slider-nav').slick({
+		infinite: false,
+		slidesToShow: 3,
+		slidesToScroll: 1,
+		asNavFor: '.slider-for',
+		arrows: false,
+		dots: false,
+		centerMode: false,
+		focusOnSelect: true,
+	});
+});
+
+
