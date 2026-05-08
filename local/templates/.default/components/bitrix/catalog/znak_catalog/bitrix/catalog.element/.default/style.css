@@ -143,11 +143,6 @@
 	text-align: center;
 }
 
-
-
-
-
-
 /*tab-section-container*/
 .bx_item_detail .tab-section-container{position:relative;}
 .bx_item_detail .tab-list{
@@ -977,3 +972,134 @@
 	font-size: 12px;
 }
 .bx_item_detail .bx_item_description .bx_specifications_table tr td:first-child{font-weight: bold;}
+
+
+
+/* Галлерия изображений */
+.product-slider{
+	display:flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.slider-nav{ position: relative}
+
+.slider-nav::after{
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	background-color: #55525246;
+	box-shadow:#000;
+	top: -6px;
+    left: 0;
+	
+}
+
+.gallary-image-wrapper{
+	position: relative;
+	max-width: 52px; 
+	height: 52px; 
+	padding: 4px;
+	border: 1px solid #55525246;
+	border-radius: 0.25rem;
+	 overflow: hidden;  
+}
+
+.gallary-image-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(71, 71, 71, 0.2);
+    border-radius: 0.25rem;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.gallary-image-wrapper:hover::before {
+    opacity: 0;
+}
+
+.slick-current .gallary-image-wrapper {
+    border-color: rgb(0, 138, 206);
+	box-shadow: 2px 2px 4px rgba(0, 138, 206, 0.3); 
+}
+
+.slick-current .gallary-image-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    border-radius: 0.25rem;
+    pointer-events: none;
+}
+
+.gallary-image-wrapper img,
+.main-image img{
+	object-fit: cover; 
+	width: 100%; 
+	height: 100%
+}
+
+.main-image a{
+	border: 1px solid #79777773;
+	position: relative;
+	display: block;
+	height: 100%;
+	width: 100%; 
+}
+
+.main-image a::before {
+    content: "Посмотреть";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25); 
+    color: #fff;
+    font-size: 14px;       
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.main-image a:hover::before {
+    opacity: 1;
+}
+
+.product-slider .slick-arrow{
+	top:100px;
+    transform: translateY(-37%);
+	transition: opacity 1s;
+    opacity: 0;
+	width: 30px;
+	height: 30px;
+}
+
+.product-slider:hover .slick-arrow,
+.product-slider .slick-arrow:hover {
+    opacity: 1;
+}
+
+.draggable:hover ~ .product-slider .slick-arrow {
+    opacity: 1;
+}
+
+.product-slider .slick-prev{ left: -10px;}
+.product-slider .slick-next{ right: -10px;}
+
+
+.product-slider .slick-arrow.slick-disabled{
+	visibility: hidden;
+}
