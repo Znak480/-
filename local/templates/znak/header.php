@@ -153,6 +153,12 @@ global $currentCity;
 		</div>
 	</noscript>
 	<!-- /Yandex.Metrika counter -->
+
+	
+	<?php 
+		//Предварительная загрузка popup для исправления ошибок с вызовом методов библиотеки
+		if (CModule::IncludeModule('main')) CJSCore::Init(array("popup")); 
+	?>
 </head>
 
 <body>
