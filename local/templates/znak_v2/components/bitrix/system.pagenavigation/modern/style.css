@@ -1,0 +1,102 @@
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .pagination-item {
+        a, span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 var(--spacing-sm);
+            border-radius: 0.5rem;
+            color: var(--text-primary-color, #333);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+
+            &:hover {
+                background: rgba(0, 0, 0, 0.05);
+                border-color: var(--border-color, #ddd);
+            }
+        }
+
+        &.active span,
+        &.active a {
+            background: var(--color-primary, #0066cc);
+            color: #fff;
+            border-color: var(--color-primary, #0066cc);
+
+            &:hover {
+                background: var(--color-primary-dark, #0052a3);
+                border-color: var(--color-primary-dark, #0052a3);
+            }
+        }
+
+        &.disabled span,
+        &.disabled a {
+            opacity: 0.3;
+            cursor: not-allowed;
+
+            &:hover {
+                background: none;
+                border-color: transparent;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .pagination-item span,
+    .pagination-item a {
+        min-width: 36px;
+        height: 36px;
+        font-size: var(--font-size-xs);
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination-item span,
+    .pagination-item a {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 6px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+
+        .pagination-item {
+
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5) {
+                order: 1;
+            }
+
+            &:nth-child(6) {
+                order: 2;
+            }
+
+            &:nth-child(7),
+            &:nth-child(8) {
+                order: 3;
+            }
+        }
+    }
+}

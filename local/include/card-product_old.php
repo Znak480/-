@@ -88,7 +88,7 @@ $arItem['PRICES']['BASE']=$arItem['PRICES'][$currentCity['PRICE_CODE']['VALUE']]
         if($ppID || $arItem["PREVIEW_PICTURE"]["SRC"]){
 	        $picture = $arItem["PREVIEW_PICTURE"]["SRC"];
             if($arItem["PREVIEW_PICTURE"]["ID"]){
-	            $file = CFile::ResizeImageGet($ppID, array('width' => 170, 'height' => 170), BX_RESIZE_IMAGE_PROPORTIONAL, true);
+	            $file = CFile::ResizeImageGet($ppID, array('width' => 960, 'height' => 960), BX_RESIZE_IMAGE_PROPORTIONAL, true);
             }
         }
 

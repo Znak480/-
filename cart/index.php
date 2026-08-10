@@ -4,17 +4,18 @@ $APPLICATION->SetPageProperty("title", "Моя корзина | Торговый
 $APPLICATION->SetPageProperty("keywords", "корзина, торговый, центр, знак, товар, ремонт, строительство, отделочный, строительный, материал");
 $APPLICATION->SetPageProperty("description", "Моя корзина. Торговый центр «Знак». Отделочные и строительные материалы, а также инструменты, текстиль, предметы интерьера, хозтовары, товары для дома.");
 $APPLICATION->SetTitle("Корзина");
-?><?$APPLICATION->IncludeComponent(
+?>
+<?$APPLICATION->IncludeComponent(
 	"bitrix:sale.basket.basket", 
-	"cart",
+	"",
 	array(
-		"COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
+		"COUNT_DISCOUNT_4_ALL_QUANTITY" => "Y",
 		"COLUMNS_LIST" => array(
 			0 => "NAME",
 			1 => "DELETE",
 			2 => "QUANTITY",
-            3 => "PRICE",
-            4 => "SUM",
+			3 => "PRICE",
+			4 => "SUM",
 		),
 		"AJAX_MODE" => "N",
 		"AJAX_OPTION_JUMP" => "N",
@@ -31,7 +32,9 @@ $APPLICATION->SetTitle("Корзина");
 		),
 		"COMPONENT_TEMPLATE" => "cart",
 		"USE_PREPAYMENT" => "N",
-		"ACTION_VARIABLE" => "action"
+		"ACTION_VARIABLE" => "action",
+		"EMPTY_BASKET_HINT_PATH"=>"/catalog/"
 	),
 	false
-);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

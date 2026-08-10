@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items hlblockUid="SocialNetworks" exchangeVersion="2" >
+<item>
+ <field name="UF_NAME">
+  <value>Telegram</value>
+ </field>
+ <field name="UF_LINK">
+  <value>https://t.me/znakooo1</value>
+ </field>
+ <field name="UF_DESCRIPTION"/>
+ <field name="UF_SORT">
+  <value>1</value>
+ </field>
+ <field name="UF_ICON">
+  <value name="icon-tg.svg" type="file">uf/812/81pw1r2kb2ibtl4z7dxvhz5z27sewcti.svg</value>
+ </field>
+</item>
+<item>
+ <field name="UF_NAME">
+  <value>Одноклассники</value>
+ </field>
+ <field name="UF_LINK">
+  <value>https://ok.ru/znakooo</value>
+ </field>
+ <field name="UF_DESCRIPTION"/>
+ <field name="UF_SORT">
+  <value>2</value>
+ </field>
+ <field name="UF_ICON">
+  <value name="icon-obn.svg" type="file">uf/b90/8oog6dja80gm3pgvej0sdbj8189l3alf.svg</value>
+ </field>
+</item>
+<item>
+ <field name="UF_NAME">
+  <value>Вконтакте</value>
+ </field>
+ <field name="UF_LINK">
+  <value>https://vk.com/znakooo</value>
+ </field>
+ <field name="UF_DESCRIPTION"/>
+ <field name="UF_SORT">
+  <value>3</value>
+ </field>
+ <field name="UF_ICON">
+  <value name="icon-vk.svg" type="file">uf/687/agqc8useuhxgrchg1zwe88nzlaq9jq18.svg</value>
+ </field>
+</item>
+
+</items>
