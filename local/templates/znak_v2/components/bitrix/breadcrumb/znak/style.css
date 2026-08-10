@@ -1,0 +1,101 @@
+.breadcrumb {
+	--breadcrumb-title-fs: var(--font-size-2xl);
+	--breadcrumb-title-padding: var(--spacing-sm) 0 var(--spacing-md) 0;
+
+	.breadcrumb-title {
+		font-size: var(--breadcrumb-title-fs);
+		color: var(--text-secondary-color);
+		font-weight: var(--font-weight-bold);
+		padding: var(--breadcrumb-title-padding);
+		margin: 0;
+	}
+
+	@media (min-width: 768px) {
+		--breadcrumb-title-fs: var(--font-size-xl);
+		--breadcrumb-title-padding: var(--spacing-sm) 0 var(--spacing-md) 0;
+	}
+
+	@media (min-width: 1024px) {
+		--breadcrumb-title-fs: var(--font-size-3xl);
+		--breadcrumb-title-padding: var(--spacing-base) 0 var(--spacing-lg) 0;
+	}
+}
+
+.breadcrumb-wrapper {
+	margin: 0;
+	padding: 0;
+	margin-block-start: var(--spacing-xl);
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+	--breadcrumb-item-color: var(--text-primary-color);
+	--breadcrumb-link-size: 13px;
+	--breadcrumb-divider-sizing: 16px;
+	display: none;
+	align-items: center;
+	white-space: nowrap;
+	max-width: 100%;
+	letter-spacing: .25px;
+	line-height: 16px;
+	margin-inline-end: 4px;
+	gap: 4px;
+
+	& .breadcrumb-item-link {
+		color: var(--breadcrumb-item-color);
+		font-size: var(--breadcrumb-link-size);
+		font-weight: var(--font-weight-normal);
+		transition: color 0.3s ease, font-weight 0.5s ease;
+	}
+
+	& a:hover {
+		color: var(--color-primary);
+	}
+
+	& svg {
+		width: var(--breadcrumb-divider-sizing);
+		height: var(--breadcrumb-divider-sizing);
+
+		& path:last-child {
+			fill: var(--breadcrumb-item-color);
+		}
+	}
+
+	&:first-child svg {
+		display: none;
+	}
+
+	@media (max-width: 499px) {
+		&:nth-last-child(2) {
+			display: flex;
+
+			& .breadcrumb-item-link {
+				--breadcrumb-link-size: 14px;
+			}
+
+			& svg {
+				display: inline-block;
+				--breadcrumb-divider-sizing: 22px;
+				rotate: 180deg;
+			}
+		}
+	}
+
+
+	@media (min-width: 500px) {
+		display: flex;
+
+		&:nth-last-child(2) {
+			& .breadcrumb-item-link {
+				--breadcrumb-link-size: 13px;
+			}
+
+			& svg {
+				--breadcrumb-divider-sizing: 16px;
+				rotate: 0deg;
+			}
+		}
+	}
+}
