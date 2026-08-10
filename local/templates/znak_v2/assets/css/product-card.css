@@ -1,0 +1,277 @@
+.product-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 128px;
+    padding: 8px;
+    background: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    height: 100%;
+
+    .btn-like {
+        position: absolute;
+        z-index: 99;
+        top: 6px;
+        right: 6px;
+        padding: 0;
+    }
+
+    .badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        display: flex;
+        z-index: 3;
+    }
+
+    .product-card-image-wrapper {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: var(--spacing-xs);
+        background-color: #f5f5f5;
+        flex-shrink: 0;
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-no-image{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+    }
+
+    .product-card-title {
+        color: var(--text-secondary-color);
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-sm);
+        margin: 0;
+        margin-bottom: var(--spacing-sm);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-height: calc(var(--font-size-sm) * 1.4 * 2);
+        line-height: 1.4;
+        word-break: break-word;
+    }
+
+    .product-card-price {
+        margin: 0;
+        padding: 0;
+        margin-bottom: var(--spacing-sm);
+        list-style: none;
+        font-size: 8px;
+        font-weight: var(--font-weight-medium);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        flex-shrink: 0;
+
+        li {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            min-height: 20px;
+
+            &:last-child {
+                align-items: center;
+            }
+        }
+
+        .price {
+            font-size: var(--font-size-sm);
+            white-space: nowrap;
+        }
+
+        .price-integer {
+            font-size: 1em;
+        }
+
+        .price-unit {
+            font-size: 0.8em;
+        }
+
+        .price--accent {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary, #ff6b00);
+        }
+    }
+
+    .product-card-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-shrink: 1;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: var(--spacing-xs);
+    }
+
+    .btn-product-card {
+        --btn-padding-block: 6px;
+        --btn-padding-inline: 4px;
+        font-size: 13px;
+        width: 100%;
+        flex-shrink: 1;
+    }
+
+    .card-input-number {
+        display: none;
+    }
+
+    .heart-icon {
+        width: 24px !important;
+        height: 24px !important;
+        transition: all 0.3s ease;
+
+        path {
+            fill: rgba(255, 255, 255, 0.281);
+            stroke: var(--text-primary-color);
+            stroke-width: 2px;
+            transition: all 0.4s ease;
+        }
+    }
+
+    .btn-like {
+        &[data-favorite-status="Y"] .heart-icon path,
+        &:hover .heart-icon path {
+            fill: var(--color-primary);
+            stroke: var(--color-primary);
+
+            .heart-title{
+                color: var(--color-primary);
+            }
+
+        }
+
+        &:active .heart-icon {
+            animation: heartPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+    }
+
+    @keyframes heartPop {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+        .product-card-image-wrapper img {
+            transform: scale(1.02);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .product-card-price {
+            font-size: 11px;
+            gap: 4px;
+
+            .price {
+                font-size: 11px;
+            }
+
+            .price--accent {
+                font-size: 13px;
+            }
+        }
+
+        .product-card-title {
+            min-height: calc(9px * 1.4 * 2);
+        }
+    }
+
+    @media (max-width: 360px) {
+        padding: 6px;
+
+        .btn-product-card {
+            font-size: 10px;
+        }
+
+        .badge {
+            --badge-fs: 8px;
+        }
+
+        .heart-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .product-card-title {
+            min-height: calc(8px * 1.4 * 2);
+        }
+    }
+
+    @media (min-width: 480px) {
+        .btn-like {
+            top: 6px;
+            right: 12px;
+            padding: 4px;
+        }
+
+        .product-card-image-wrapper {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .product-card-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-base);
+            min-height: calc(var(--font-size-sm) * 1.4 * 2);
+        }
+
+        .product-card-price {
+            font-size: var(--font-size-xs);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+
+            .price--accent {
+                font-size: var(--font-size-base);
+            }
+        }
+
+        .btn-product-card {
+            --btn-padding-block: 0;
+            --btn-padding-inline: 0;
+            font-size: 12px;
+        }
+
+        .card-input-number {
+            display: inline-flex;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .product-card-price .price--accent {
+            font-size: var(--font-size-md);
+        }
+
+        .btn-product-card {
+            font-size: 14px;
+        }
+    }
+}
