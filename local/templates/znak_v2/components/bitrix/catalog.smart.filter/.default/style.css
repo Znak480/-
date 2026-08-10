@@ -1,0 +1,310 @@
+.catalog-filter-sidebar {
+    width: 100%;
+    max-width: 400px;
+    position: sticky;
+    top: 20px;
+    align-self: start;
+
+    @media (max-width: 767px) {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100%;
+        z-index: 102;
+        background: var(--color-bg-primary);
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        
+        &.open,
+        &.active {
+            left: 0;
+        }
+    }
+}
+
+.catalog-filter-sidebar-wrapper {
+    max-height: calc(100vh - var(--spacing-md));
+    overflow-y: auto;
+
+    @media (max-width: 767px) {
+        position: relative;
+        height: 100%;
+        padding: var(--spacing-md) var(--spacing-lg);
+        overflow-y: auto;
+    }
+
+    &::-webkit-scrollbar {
+       
+        width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    .filter-actions {
+        position: relative;
+        z-index: 2;
+        background: var(--color-bg-primary);
+        display: flex;
+        gap: var(--spacing-sm);
+
+        .btn-filter-reset {
+            --bg-color: #808080;
+            --text-color: #fff;
+            --btn-border-color: #808080;
+        }
+    }
+}
+
+.catalog-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block-end: var(--spacing-md);
+    margin-block-end: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color, #ddd);
+
+    .filter-title {
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-primary-color, #333);
+    }
+
+    .filter-close {
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 0.3s ease;
+        color: var(--text-secondary-color, #666);
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-primary-color, #333);
+        }
+
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    @media(min-width: 768px) {
+        display: none;
+    }
+}
+
+
+@keyframes filterSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+        max-height: 0;
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 40px;
+    }
+}
+
+.filter-group {
+    margin-block-end: var(--spacing-lg);
+
+    &:last-of-type {
+        margin-block-end: var(--spacing-md);
+    }
+
+    .filter-group-title {
+        max-width: 290px;
+        text-align: start;
+        font-size: var(--font-size-base);
+        font-weight: 700;
+        margin: 0 0 var(--spacing-sm) 0;
+        color: var(--text-seconadary-color, #333);
+    }
+
+    .filter-divider {
+        position: relative;
+        margin-block-start: var(--spacing-sm);
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 2px;
+            background: var(--color-primary, #0066cc);
+        }
+
+        .hidden {
+            display: none;
+        }
+    }
+
+    .filter-price-inputs {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+
+
+        &>input {
+            max-width: 100px;
+            min-width: 0;
+            width: 100%;
+            padding: var(--spacing-xs) 0;
+            border: 0;
+            border-block-end: 1px solid #B7B7B7;
+            background: transparent;
+            font-size: var(--font-size-sm);
+            color: #B7B7B7;
+            transition: border-color 0.3s ease;
+
+            &::placeholder {
+                color: #B7B7B7;
+                font-size: var(--font-size-sm);
+            }
+
+            &:focus {
+                outline: none;
+                outline-offset: 0;
+                border-block-end-color: var(--color-primary, #0066cc);
+            }
+
+
+            &[type="number"] {
+                -moz-appearance: textfield;
+
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+
+.filter-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .filter-checkbox {
+        width: max-content;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        padding: var(--spacing-sm) 0;
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+        color: var(--text-seconadary-color, #333);
+        transition: color 0.2s ease;
+
+
+        &.disabled{
+            color: #7676764d;
+
+            &:hover {
+                color: #7676764d
+            }
+        }
+
+        &:hover {
+            color: var(--color-primary, #0066cc);
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-primary, #0066cc);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+    }
+
+    .filter-checkbox.hidden {
+        display: none;
+    }
+
+    .filter-checkbox.visible {
+        display: flex;
+        animation: filterSlideDown 0.3s ease forwards;
+    }
+
+}
+
+.filter-accordion {
+    .filter-group-body {
+        max-height: 1000px;
+    }
+
+    .filter-group-header {
+        pointer-events: none;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+
+        &>svg {
+            display: none;
+        }
+    }
+
+    @media (max-width: 767px) {
+        margin-block-end: 0;
+
+        .filter-group-header {
+            pointer-events: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px 8px 12px 0;
+
+            border-block-start: 1px solid #ddd;
+
+            &>svg {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                fill: currentColor;
+                transition: transform 0.3s ease;
+            }
+
+            &.open>svg {
+                transform: rotate(180deg);
+            }
+
+            .filter-group-title {
+                margin: 0;
+            }
+        }
+
+        .filter-group-body {
+            overflow: hidden;
+            max-height: 0;
+            padding: 0 8px;
+
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &.open {
+                max-height: 1000px;
+                padding: 10px 8px;
+            }
+        }
+    }
+}
