@@ -3,6 +3,10 @@
 ini_set("memory_limit", "-1");
 
 use Bitrix\Main\Loader;
+use Bitrix\Main\EventManager;
+use Bitrix\Main\Engine\ControllerBuilder;
+
+$eventManager = EventManager::getInstance();
 
 if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/wsrubi.smtp/classes/general/wsrubismtp.php"))
 {
@@ -36,3 +40,13 @@ if(Loader::includeModule('craft.core'))
 
 require_once __DIR__ . '/old_init.php';
 require_once __DIR__ . '/events.php';
+
+if(file_exists($_SERVER["DOCUMENT_ROOT"] . '/local/classes/ProductBadgeManager.php')){
+	Loader::registerAutoLoadClasses(null, [
+    	'ProductBadgeManager' => '/local/classes/ProductBadgeManager.php',
+	]);
+}
+
+Loader::registerAutoLoadClasses(null, [
+    'Znak\\Price\\PriceProcessor' => '/local/lib/price/processor.php',
+]);
