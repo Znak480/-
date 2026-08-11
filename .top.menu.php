@@ -4,7 +4,9 @@ $aMenuLinks = Array(
 		"Каталог", 
 		"/catalog/", 
 		Array(), 
-		Array(), 
+		Array(
+			"IS_MOBILE" => "Y",
+		), 
 		''
 	),
 	Array(
