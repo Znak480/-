@@ -147,6 +147,20 @@
     }
 }
 
+.btn-neutral {
+    --bg-color: white;
+    --text-color: var(--color-primary);
+    --btn-border-color: white;
+
+    transition: filter 0.25s, transform 0.2s;
+
+    &:hover {
+        filter: brightness(0.94);
+        transform: translateY(-2px);
+        opacity: 1;
+    }
+}
+
 .btn-secondary {
     --bg-color: var(--color-secondary);
     --text-color: white;
