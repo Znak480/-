@@ -20,6 +20,7 @@ if ($discount > 0) {
 }
 
 $arResult['PRICES']['BASE'] = $arResult['PRICES'][$currentCity['PRICE_CODE']['VALUE']];
+$measure= $arResult["PROPERTIES"]["MEASURE"];
 ?>
 <div data-page="product">
     <? $APPLICATION->IncludeComponent(
@@ -151,14 +152,14 @@ $arResult['PRICES']['BASE'] = $arResult['PRICES'][$currentCity['PRICE_CODE']['VA
                                 <span class="price-container-title">цена без карты</span>
                                 <div class="price">
                                     <span class="price-integer"><?= number_format($currentPrice, 2, ',', ' ') ?></span>
-                                    <span class="price-unit">&#8381/шт</span>
+                                    <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
                                 </div>
                             </li>
                             <li class="price-container">
                                 <span class="price-container-title">цена по карте</span>
                                 <div class="price price--accent">
                                     <span class="price-integer"><?= number_format($cardPrice, 2, ',', ' ') ?></span>
-                                    <span class="price-unit">&#8381/шт</span>
+                                    <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
                                 </div>
                             </li>
                         </ul>
@@ -166,6 +167,13 @@ $arResult['PRICES']['BASE'] = $arResult['PRICES'][$currentCity['PRICE_CODE']['VA
                         <div class="product-actions">
                             <button class="btn btn-primary btn-product-card" data-id="<?=$arResult["ID"]?>">В корзину</button>
                         </div>
+                        <? if(!empty($measure)): ?>
+                        <div class="product-info-terms">
+                            <p class="terms-text">
+                            <?= $measure['SYMBOL']?> - <?=$measure['MEASURE_TITLE'] ?>
+                            </p>
+                        </div>
+                        <?endif;?>
                     </div>
                     
                     <div class="product-content-block product-navigation">
