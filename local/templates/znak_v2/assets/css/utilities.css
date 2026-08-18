@@ -411,7 +411,7 @@
 }
 
 .accordion-item {
-    --min-width: 290px;
+    --min-width: 200px;
     --accordion-padding-block: 18px;
     --accordion-padding-inline: 16px;
     width: 100%;
@@ -466,4 +466,10 @@
 .accordion-item .accordion-item-body.active {
     max-height: 1000px;
     padding-block-end: var(--accordion-padding-block);
+}
+
+.accordion-item .accordion-item-cta-actions{
+    display: flex;
+    flex-direction: row;
+    margin-block-start: var(--spacing-md);
 }
