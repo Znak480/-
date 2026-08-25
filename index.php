@@ -173,37 +173,17 @@ global $currentCity;
 	</div>
 	<div class="section-content">
         <div class="container">
-			<?
-				global $arSectionFilter;
-				$arSectionFilter = [
-					'=UF_ISMAIN' => 1
-			
+			<?$GLOBALS['arrFilter'] = [
+				'=UF_SHOW_ON_MAIN' => 1,
 			];
 
-			// Для отладки - посмотрим, сколько разделов попадает под фильтр
-			$dbSections = CIBlockSection::GetList(
-				['SORT' => 'ASC'],
-				[
-					'IBLOCK_ID' => $currentCity["IBLOCK_CATALOG"]["VALUE"],
-					'ACTIVE' => 'Y',
-					'DEPTH_LEVEL' => 1,
-					'=UF_ISMAIN' => 1,
-				],
-				false,
-				['ID', 'NAME', 'SORT']
-			);
-
-			echo "Отладка: разделы с SORT != 1\n";
-				while ($arSection = $dbSections->Fetch()) {
-				echo " ID: {$arSection['ID']}, NAME: {$arSection['NAME']}, SORT: {$arSection['SORT']}\n";
-			}
 			$APPLICATION->IncludeComponent(
 				"bitrix:catalog.section.list",
 				"categories", 
 				[
 					"IBLOCK_TYPE" => "catalog",
 					"IBLOCK_ID" =>  $currentCity["IBLOCK_CATALOG"]["VALUE"],
-					"FILTER_NAME" => "arSectionFilter",
+					"FILTER_NAME" => "arrFilter",
 					"CACHE_TYPE" => "A",
 					"CACHE_TIME" => "3600",
 					"CACHE_GROUPS" => "Y",
