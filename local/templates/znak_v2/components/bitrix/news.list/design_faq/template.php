@@ -15,7 +15,11 @@
             </button>
             <div class="accordion-item-body" data-item="body">
                 <span>
-                    <?= $property["ANSWER"]["VALUE"]?>
+                    <? if(!empty($item["PREVIEW_TEXT"])){
+                        echo $item["PREVIEW_TEXT"];
+                    } else{
+                        echo "Ответ еще не добавлен";
+                    }?>
                 </span>
 
                 <?if(!empty($property["CTA"]["VALUE"])):?>
