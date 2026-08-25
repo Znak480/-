@@ -1,8 +1,6 @@
-.security-info{
-    & > p{
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.6;
-        color: #495057;
-    }
+.security-info > p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #495057;
 }

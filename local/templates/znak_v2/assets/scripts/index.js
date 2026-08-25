@@ -1,6 +1,112 @@
 import { modalSystem } from './modules/modal/modalSystem.js';
 import { showMore } from './modules/showMore.js';
 
+// Класс отвечающий за контроль состояния элемента аккордина на странице
+class AccordionItem {
+    constructor(element) {
+        if (!element) {
+            throw new Error('Accordion item must have an element');
+        }
+
+        this.element = element;
+
+        this.header = element.querySelector('[data-item="header"]');
+        this.body = element.querySelector('[data-item="body"]');
+
+        this.element.dataset.state = "closed";
+        this.header?.addEventListener('click', () => this.toggle());
+    }
+
+    open() {
+        if (this.isOpen()) {
+            return;
+        }
+
+        this.header.setAttribute("aria-expanded", true);
+        this.header.classList.add('open');
+
+        this.body.classList.add('active');
+        this.element.dataset.state = "open";
+
+        //Кастомный Event для реализации поведения после открытия меню
+        this.element.dispatchEvent(new CustomEvent('accordion:open'));
+    }
+
+    close() {
+        if (!this.isOpen()) {
+            return;
+        }
+
+        this.header.setAttribute("aria-expanded", false);
+        this.header.classList.remove('open');
+
+        this.body.classList.remove('active');
+        this.element.dataset.state = "closed";
+
+        //Кастомный Event для реализации поведения после закрытия меню
+        this.element.dispatchEvent(new CustomEvent('accordion:close'));
+    }
+
+
+    toggle() {
+        this.isOpen() ? this.close() : this.open();
+    }
+
+    isOpen() {
+        return this.element.dataset.state === 'open';
+    }
+}
+
+// Класс отвечающий за управление аккордеоном на странице
+class Accordion {
+
+    // Конструктор класса Accordion принисмает два параметра:
+    // container - селектор контейнера в котором находится список элементов
+    // options - объект опций
+    constructor(container, options = {}) {
+        this.container = document.querySelector(container);
+
+        if(!this.container){
+            return;
+        }
+
+        this.items = [];
+        this.options = { closeOthers: true, ...options };
+        this.init();
+    }
+
+
+    // Инициализация элементов посредством передачи элемента аккордина в обьект класса AccordeonItem
+    init() {
+        const itemElements = this.container.querySelectorAll('[data-entity="accordion-item"]');
+        itemElements.forEach(el => {
+            const item = new AccordionItem(el);
+            this.items.push(item);
+
+            el.addEventListener('accordion:open', () => this.onItemOpen(item));
+            el.addEventListener('accordion:close', () => this.onItemClose(item));
+        });
+
+        console.log(this);
+    }
+
+    // Открытие элемента аккордиона
+    // openedItem - открываемый элемент представленный объектом класса AccordionItem
+    onItemOpen(openedItem) {
+        if (this.options.closeOthers) {
+            this.items.forEach(item => {
+                if (item !== openedItem && item.isOpen()) item.close();
+            });
+        }
+    }
+
+    //TODO: добавить обработчик события закрытие элемента
+    onItemClose(closedItem) { }
+
+    openAll() { this.items.forEach(item => item.open()); }
+    closeAll() { this.items.forEach(item => item.close()); }
+}
+
 function closeDropdowns() {
     document.querySelectorAll('.region-dropdown.open')
         .forEach(el => el.classList.remove('open'));
@@ -93,7 +199,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (windowWidth < 768) {
             modalSystem.open('mobile-sidebar');
         } else {
-            console.log("#WIP[open]# Catalog - comming soon")
+            window.location.href = '/catalog';
         }
 
     }
@@ -111,8 +217,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         },
         'catalog': {
-            open: () => console.log("#WIP[open]# Catalog - comming soon"),
-            close: () => console.log("#WIP[close]# Catalog - comming soon")
+            open: () =>  window.location.href = '/catalog',
         },
         'toggle-action': {
             open: () => openContext()
@@ -143,7 +248,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         })
 
-
         window.addEventListener('scroll', () => updateFixedHeader());
         window.addEventListener('resize', () => updateFixedHeader());
 
@@ -151,7 +255,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     });
 
-   
+
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.increment, .decrement');
         if (!btn) return;
@@ -160,16 +264,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const input = btn.closest('.input-number').querySelector('.quantity');
         let value = parseInt(input.value) || 1;
-
+        
+        
+        let modificator = 1;
         if (btn.classList.contains('increment')) {
             value++;
         } else {
-            value = Math.max(1, value - 1);
+            value = Math.max(input.min, value - 1);
+            modificator = -1;
         }
 
         input.value = value;
 
-        input.dispatchEvent(new Event('change', { bubbles: true }));
+        const event = new Event('change', { bubbles: true });
+        event.modificator = modificator;
+
+        input.dispatchEvent(event)
     });
 
 
@@ -179,11 +289,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     document.querySelectorAll(".btn-filter").forEach((button) => {
-        button.addEventListener("click", (e)=>{
+        button.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
 
-            if(!button || modalSystem.isOpen("filter")){
+            if (!button || modalSystem.isOpen("filter")) {
                 return;
             }
 
@@ -199,33 +309,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
         button: {
             buttonSelector: '.btn-show-more',
             buttonTextExpanded: 'Свернуть',
-            buttonTextCollapsed : 'Показать еще',
+            buttonTextCollapsed: 'Показать еще',
         },
         animation: true,
         animationDuration: 300
     });
-    
+
+    //Инициализация аккордеона на странице design_project (Дизайн проект)
+    const accordion = new Accordion(".design-aq-list", { closeOthers: false, })
 });
 
 
-BX.ready(function(){
-    BX.addCustomEvent('onIntensaFavoriteChange', function(data){
-        if(data.success){
+BX.ready(function () {
+    BX.addCustomEvent('onIntensaFavoriteChange', function (data) {
+        if (data.success) {
             document.querySelectorAll('[data-entity="favorite-counter"]').forEach(fCount => {
-            
-                if(!fCount){
+
+                if (!fCount) {
                     return;
                 }
                 const button = fCount.closest('.btn-action');
 
-                setTimeout(() =>{
+                setTimeout(() => {
                     fCount.classList.toggle("hidden", data.count == 0);
-                        if(data.count > 0){
-                        button.classList.add("active");                    
-                        }else{
-                            button.classList.remove("active");
-                        }
-                }, 300)                
+                    if (data.count > 0) {
+                        button.classList.add("active");
+                    } else {
+                        button.classList.remove("active");
+                    }
+                }, 300)
             })
         }
     })

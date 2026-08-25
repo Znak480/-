@@ -82,7 +82,7 @@
                 nextEl: `#${nextId}`,
             },
         };
-        console.log(needPagination, options.pagination)
+        
         const swiper = new Swiper(container, swiperOptions);
         return swiper;
     }

@@ -759,4 +759,12 @@ if (empty($arResult['DISPLAY_PROPERTIES']) && !empty($arResult['PROPERTIES'])) {
         }
     }
 }
+
+
+$measureID = $arResult["PRODUCT"]["MEASURE"];
+$rsMeasure = CCatalogMeasure::GetList([], ['ID' => $measureID]);
+while ($arMeasure = $rsMeasure->Fetch()) {
+    $arResult["PROPERTIES"]["MEASURE"]= $arMeasure;
+}
+
 ?>
