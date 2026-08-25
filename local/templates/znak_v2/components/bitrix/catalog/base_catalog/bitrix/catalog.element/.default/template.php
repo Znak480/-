@@ -133,6 +133,13 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                                 <? endforeach; ?>
                             </div>
                         <? endif; ?>
+                        
+                        <?if(!empty($arResult["PROPERTIES"]["ARTIKUL"]["VALUE"])):?>
+                        <div class="product-article">
+                            <span class="product-article-label">Артикул:</span>
+                            <span class="product-article-value"> <?= $arResult["PROPERTIES"]["ARTIKUL"]["VALUE"] ?></span>
+                        </div>
+                        <?endif;?>
                         <h1 class="product-title"><?= $arResult["NAME"]?></h1>
                         <div class="product-info-mobile-action">
                             <? $APPLICATION->IncludeComponent(
