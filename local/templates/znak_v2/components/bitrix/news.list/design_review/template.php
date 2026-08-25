@@ -3,22 +3,7 @@
 <?if(!empty($arResult["ITEMS"])):?>
 	<div id="design-reviews-slider" class="swiper">
         <div class="swiper-wrapper">
-            <?foreach ($arResult['ITEMS'] as $item): ?>
-                <a href="<?= $item["PROPERTIES"]["LINK_TO_REVIEW"]["VALUE"]?>" class="swiper-slide design-reviews-slide">
-                    <div class="review-image">
-                        <?if(!empty($item["PROPERTIES"]["IMAGE"]["VALUE"])): ?>
-                            <?$file = CFile::ResizeImageGet($item["PROPERTIES"]["IMAGE"]["VALUE"], array('width'=>160,'height'=> 160), BX_RESIZE_IMAGE_EXACT); ?>
-                            <img src="<?= $file['src'] ?>" alt="Отзыв-<?= $item["PROPERTIES"]["AUTOR"]["VALUE"]?>">
-                        <?else:?>
-                            <div class="plug-banner">Нет фото</div>
-                        <?endif;?>
-                    </div>
-                    <div class="review-content">
-                        <h3 class="reviewer"><?= $item["PROPERTIES"]["AUTOR"]["VALUE"]?></h3>
-                        <p class="review-text"><?= $item["PROPERTIES"]["REVIEW_TEXT"]["VALUE"]?></p>
-                    </div>
-                </a>
-            <?endforeach;?>
+            <?include __DIR__ . '/review_card.php';?>
         </div>
     </div>
 <?else:?>
