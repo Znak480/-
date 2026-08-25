@@ -275,31 +275,12 @@ $APPLICATION->SetTitle("Дизайн проект");
 
 <script>
     //TODO: Переписать скрипт в отдельный файл
-
     if (typeof Fancybox !== 'undefined') {
         Fancybox.bind("[data-fancybox]");
     }
 
     const { initSlider } = window.sliders;
-    initSlider('#design-reviews-slider',{
-        slidesPerView: 1.5,
-        spaceBetween: 14,
-        breakpoints:{
-            456:{
-                slidesPerView: 2,
-            },
-            680:{
-                slidesPerView: 2.5,
-            },
-            768:{
-                slidesPerView :3,
-            },
-            1024:{
-                slidesPerView: 3.5,
-            }
-
-        } 
-    })
+    
     initSlider('#design-ideas-slider', {
         loop: true,
         slidesPerView: 1.75,
