@@ -66,6 +66,10 @@ class Accordion {
     constructor(container, options = {}) {
         this.container = document.querySelector(container);
 
+        if(!this.container){
+            return;
+        }
+
         this.items = [];
         this.options = { closeOthers: true, ...options };
         this.init();
@@ -195,7 +199,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (windowWidth < 768) {
             modalSystem.open('mobile-sidebar');
         } else {
-            console.log("#WIP[open]# Catalog - comming soon")
+            window.location.href = '/catalog';
         }
 
     }
@@ -213,8 +217,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         },
         'catalog': {
-            open: () => console.log("#WIP[open]# Catalog - comming soon"),
-            close: () => console.log("#WIP[close]# Catalog - comming soon")
+            open: () =>  window.location.href = '/catalog',
         },
         'toggle-action': {
             open: () => openContext()
@@ -245,7 +248,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         })
 
-
         window.addEventListener('scroll', () => updateFixedHeader());
         window.addEventListener('resize', () => updateFixedHeader());
 
@@ -262,16 +264,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const input = btn.closest('.input-number').querySelector('.quantity');
         let value = parseInt(input.value) || 1;
-
+        
+        
+        let modificator = 1;
         if (btn.classList.contains('increment')) {
             value++;
         } else {
-            value = Math.max(1, value - 1);
+            value = Math.max(input.min, value - 1);
+            modificator = -1;
         }
 
         input.value = value;
 
-        input.dispatchEvent(new Event('change', { bubbles: true }));
+        const event = new Event('change', { bubbles: true });
+        event.modificator = modificator;
+
+        input.dispatchEvent(event)
     });
 
 

@@ -11,7 +11,7 @@ export function windowHolder() {
         if (!__checkConfig(config)) return;
 
         const exists = get(config.id)
-        console.log(holder, exists)
+        
         if (exists) {
             console.warn("Window already exists");
             return;
