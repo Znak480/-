@@ -29,173 +29,31 @@ global $searchFilter;
 		<?
 		global $currentCity;
 
-		function searchCatalog($phrase, $iblock) {
-
-			if(strlen($phrase)<3) return null;
+		function searchCatalog($phrase, $iblockId) {
+			if (strlen($phrase) < 3) return null;
+			
 			CModule::IncludeModule("search");
-			CModule::IncludeModule("catalog");
 			CModule::IncludeModule("iblock");
-
-			$arElements=array();
-			global $arRankedElements;
-			global $_REQUEST;
-			$arrFilter=array('IBLOCK_ID'=>$iblock, 'ACTIVE'=>'Y');
-			$elementIDS=array();
-			global $DB;
-			$sortArray=array();
-
-			// прочитаем файл замены
-			$synS = \Craft\Factory\SynonymServiceFactory::getService();
-			$zamenafrom=array();
-			$zamenato=array();
-			$zamena=file($_SERVER['DOCUMENT_ROOT']."/zamena.csv");
-			foreach($zamena as $s) {
-				$pieces=explode(";",iconv("cp1251","UTF-8",$s));
-				if(trim($pieces[0])&&trim($pieces[1])){
-					$zamenafrom[]=trim($pieces[0]);
-					$zamenato[]=trim($pieces[1]);
-				}
+			
+			// Используем стандартный поиск Bitrix
+			$search = new CSearch();
+			$search->Search([
+				'QUERY' => $phrase,
+				'SITE_ID' => SITE_ID,
+				'MODULE_ID' => 'iblock',
+				'PARAM1' => 'catalog',
+				'PARAM2' => $iblockId,
+				'CHECK_DATES' => 'N',
+			]);
+			
+			$ids = [];
+			while ($ar = $search->Fetch()) {
+				$ids[] = $ar['ITEM_ID'];
 			}
-			$originalPhrase = $phrase;
-			$phrase=str_replace($zamenafrom, $zamenato, $phrase);
-
-			// Получаем синонимы для всего запроса
-			$allSynonyms = $synS->findSynonyms($phrase);
-			$allSynonyms = array_filter($allSynonyms, function($syn) use ($phrase) {
-				return mb_strtolower(trim($syn)) != mb_strtolower(trim($phrase));
-			});
-
-			// Добавляем оригинальный запрос в начало
-			array_unshift($allSynonyms, $phrase);
-
-			// Если есть оригинальная фраза (до замен), тоже добавляем
-			if($originalPhrase != $phrase) {
-				array_unshift($allSynonyms, $originalPhrase);
-			}
-
-			// Уникализируем
-			$allSynonyms = array_unique($allSynonyms);
-
-			// Для каждого синонима ищем товары
-			foreach($allSynonyms as $searchTerm) {
-				$searchTerm = trim($searchTerm);
-				if(mb_strlen($searchTerm) < 3) continue;
-
-				// 1. Поиск полного совпадения (если длинная фраза)
-				if(mb_strlen($searchTerm) > 5) {
-					$safeTerm = $DB->ForSql($searchTerm);
-					$results = $DB->Query("
-					SELECT ID FROM b_iblock_element 
-					WHERE IBLOCK_ID = $iblock 
-					AND ACTIVE = 'Y'
-					AND (
-						NAME LIKE '$safeTerm%' 
-						OR NAME LIKE '% $safeTerm%' 
-						OR NAME LIKE '%-$safeTerm%'
-						OR NAME = '$safeTerm'
-					)
-				");
-
-					while($row = $results->Fetch()) {
-						if(!in_array($row['ID'], $elementIDS)) {
-							$elementIDS[] = $row['ID'];
-						}
-					}
-				}
-
-				// 2. Разбиваем на слова и ищем каждое слово
-				$words = preg_split('/\s+/', $searchTerm);
-				foreach($words as $word) {
-					$word = trim($word);
-					if(mb_strlen($word) < 3) continue;
-
-					$safeWord = $DB->ForSql($word);
-
-					// Ищем слово целиком (с пробелами вокруг)
-					$results = $DB->Query("
-					SELECT ID FROM b_iblock_element 
-					WHERE IBLOCK_ID = $iblock 
-					AND ACTIVE = 'Y'
-					AND (
-						NAME LIKE '$safeWord %'
-						OR NAME LIKE '% $safeWord %'
-						OR NAME LIKE '% $safeWord'
-						OR NAME LIKE '%-$safeWord %'
-						OR NAME LIKE '%-$safeWord'
-						OR NAME LIKE '$safeWord-%'
-					)
-				");
-
-					while($row = $results->Fetch()) {
-						if(!in_array($row['ID'], $elementIDS)) {
-							$elementIDS[] = $row['ID'];
-						}
-					}
-
-					// Ищем слово как часть слова (без учета пробелов)
-					$results = $DB->Query("
-					SELECT ID FROM b_iblock_element 
-					WHERE IBLOCK_ID = $iblock 
-					AND ACTIVE = 'Y'
-					AND (
-						NAME LIKE '%$safeWord%'
-					)
-				");
-
-					while($row = $results->Fetch()) {
-						if(!in_array($row['ID'], $elementIDS)) {
-							$elementIDS[] = $row['ID'];
-						}
-					}
-				}
-			}
-
-			// 3. Если все еще ничего не нашли, используем стемминг
-			if(count($elementIDS) == 0 && strlen($phrase) > 4) {
-				$stemmedWords = array_keys(stemming($phrase));
-				foreach($stemmedWords as $stem) {
-					$stem = trim($stem);
-					if(mb_strlen($stem) < 3) continue;
-
-					$safeStem = $DB->ForSql($stem);
-					$results = $DB->Query("
-					SELECT ID FROM b_iblock_element 
-					WHERE IBLOCK_ID = $iblock 
-					AND ACTIVE = 'Y'
-					AND NAME LIKE '%$safeStem%'
-				");
-
-					while($row = $results->Fetch()) {
-						if(!in_array($row['ID'], $elementIDS)) {
-							$elementIDS[] = $row['ID'];
-						}
-					}
-				}
-			}
-
-			// 4. Поиск в описании (если все еще не нашли)
-			if(count($elementIDS) == 0 && strlen($phrase) > 4) {
-				$safePhrase = $DB->ForSql($phrase);
-				$results = $DB->Query("
-				SELECT ITEM_ID FROM b_search_content 
-				WHERE PARAM2 = $iblock 
-				AND PARAM1 = 'catalog'
-				AND (BODY LIKE '%$safePhrase%' OR TITLE LIKE '%$safePhrase%')
-			");
-
-				while($row = $results->Fetch()) {
-					if(!in_array($row['ITEM_ID'], $elementIDS)) {
-						$elementIDS[] = $row['ITEM_ID'];
-					}
-				}
-			}
-
-			if(count($elementIDS) == 0) {
-				$elementIDS = null;
-			}
-
-			return $elementIDS;
+			
+			return $ids;
 		}
+
 		$arElements=searchCatalog($_REQUEST['q'], $currentCity["IBLOCK_CATALOG"]["VALUE"]);
 
 		$finderSection = [];
@@ -214,6 +72,10 @@ global $searchFilter;
 			$searchFilter = array(
 						"=ID" => $arElements,
 					);
+
+			if($_GET['where']){
+				$searchFilter=array_merge($searchFilter,array("SECTION_ID"=>$_GET['where']));
+			}
 		?>
 
 		<? if(!empty($arElements) && is_array($arElements)): ?>
@@ -298,6 +160,8 @@ global $searchFilter;
 						"PAGER_DESC_NUMBERING_CACHE_TIME" => $arParams["PAGER_DESC_NUMBERING_CACHE_TIME"],
 						"PAGER_SHOW_ALL" => $arParams["PAGER_SHOW_ALL"],
 						"FILTER_NAME" => "searchFilter",
+						"SEARCH" => $_REQUEST['q'],
+        				"USE_SEARCH" => "Y",
 						"SECTION_ID" => "",
 						"SECTION_CODE" => "",
 						"SECTION_USER_FIELDS" => array(),
