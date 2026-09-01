@@ -32,6 +32,10 @@
     --badge-color: #E31E24;
 }
 
+.badge--season{
+    --badge-color: #729e00;
+}
+
 .badge-label {
     font-size: var(--badge-fs);
     font-weight: var(--font-weight-medium);
