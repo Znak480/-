@@ -66,7 +66,7 @@ class Accordion {
     constructor(container, options = {}) {
         this.container = document.querySelector(container);
 
-        if(!this.container){
+        if (!this.container) {
             return;
         }
 
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         },
         'catalog': {
-            open: () =>  window.location.href = '/catalog',
+            open: () => window.location.href = '/catalog',
         },
         'toggle-action': {
             open: () => openContext()
@@ -264,8 +264,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const input = btn.closest('.input-number').querySelector('.quantity');
         let value = parseInt(input.value) || 1;
-        
-        
         let modificator = 1;
         if (btn.classList.contains('increment')) {
             value++;
@@ -317,7 +315,71 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     //Инициализация аккордеона на странице design_project (Дизайн проект)
     const accordion = new Accordion(".design-aq-list", { closeOthers: false, })
+
+    const sliders = window.loadProductSlider();
+    function updateSliderMouseover() {
+        const width = window.innerWidth;
+
+        sliders.forEach(slider => {
+            const mouseover = slider.el.querySelector(".swiper-mouseover");
+            if (!mouseover) return;
+
+            if (width > 1024) {
+                mouseover.style.inset = 0;
+            } else {
+                mouseover.style.inset = "auto";
+            }
+        });
+    }
+
+    let resizeTimeout;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updateSliderMouseover, 250);
+    });
+
+    updateSliderMouseover();
 });
+
+
+
+window.loadProductSlider = function () {
+    const swipers = [];
+
+    document.querySelectorAll('[data-card="product-slider"]').forEach(function (element, index) {
+
+        const swiperInstance = new Swiper(element, {
+            modules: [MouseoverPlugin],
+            slidesPerView: 1,
+            spaceBetween: 4,
+            mouseover: {
+                el: element.querySelector(".swiper-mouseover"),
+                reset: true,
+            },
+            observer: true,
+            observeParents: true,
+            observeSlideChildren: true,
+            resizeObserver: true,
+
+            pagination: {
+                el: element.nextElementSibling,
+                type: 'bullets',
+            },
+        });
+
+        swipers[index] = swiperInstance;
+
+        let touchTimeout;
+        swiperInstance.on('touchEnd', function (swiper, event) {
+            clearTimeout(touchTimeout);
+            touchTimeout = setTimeout(() => {
+                swiperInstance.slideTo(0);
+            }, 2000);
+        });
+    });
+
+    return swipers;
+}
 
 
 BX.ready(function () {

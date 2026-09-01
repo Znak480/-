@@ -232,8 +232,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.classList.add('error');
                 }
 
-                 if (typeof synchronizeItemsWithBasket === 'function') {
+                if (typeof synchronizeItemsWithBasket === 'function') {
                     await synchronizeItemsWithBasket();
+                }
+
+                if(typeof window.loadProductSlider === 'function'){
+                    window.loadProductSlider();
                 }
             } catch (error) {
                 if (error.name === 'AbortError') {

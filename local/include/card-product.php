@@ -1,14 +1,31 @@
 <?
-    if (!defined('PRODUCT_CARD_JS_LOADED')) {
-        define('PRODUCT_CARD_JS_LOADED', true);
-        $APPLICATION->AddHeadScript("/local/js/card-product.js");
-    }
+if (!defined('PRODUCT_CARD_JS_LOADED')) {
+    define('PRODUCT_CARD_JS_LOADED', true);
+    $APPLICATION->AddHeadScript("/local/js/card-product.js");
+}
     
-    global $currentCity;
-    $arItem['PRICES']['BASE']=$arItem['PRICES'][$currentCity['PRICE_CODE']['VALUE']];
-    $badgeData = $arItem['BADGE_DATA'];
+global $currentCity;
+$arItem['PRICES']['BASE']=$arItem['PRICES'][$currentCity['PRICE_CODE']['VALUE']];
+$badgeData = $arItem['BADGE_DATA'];
 
-    $priceData = getCardPriceData($arItem);
+$priceData = getCardPriceData($arItem);
+
+$pictures = array();
+
+if ($arItem["PREVIEW_PICTURE"]["ID"]) {
+    $pictures[] = $arItem["PREVIEW_PICTURE"]["ID"];
+}
+
+if (!empty($arItem["PROPERTIES"]["PICTURES"]["VALUE"])) {
+    $pictures = array_merge($pictures, $arItem["PROPERTIES"]["PICTURES"]["VALUE"]);
+}
+
+$gallery = $arItem["PROPERTIES"]["GALLERY"]["VALUE"];
+if (!empty($gallery)) {
+    $pictures = array_merge($pictures, $gallery);
+}
+
+$pictures = array_unique($pictures);
 ?>
 
 <!-- Product card start -->
@@ -30,26 +47,38 @@
                 <? endforeach;?>
             <?endif;?>
         </div>
-
-        <? if($arItem["PREVIEW_PICTURE"]["ID"]):?>
-            <? 
-            $image = CFile::ResizeImageGet(
-                $arItem["PREVIEW_PICTURE"]["ID"], 
-                ['width' => '960', 'height' => '960'],
-                BX_RESIZE_IMAGE_EXACT,
-                true
-            ); 
-            ?>
-            <img 
-                src="<?= $image['src']?>"  
-                alt="<?= htmlspecialcharsbx($arItem["NAME"])?>" 
-                loading="lazy"
-            >
-        <? else: ?>
-            <div class="product-no-image">
-                <span>Нет фото</span>
+        <div class="product-card-banner-container">
+            <div class="swiper" data-card="product-slider">
+                <div class="swiper-wrapper">
+                <?if(!empty($pictures)): ?>
+                    <? foreach ($pictures as $picture) : ?>
+                        <div class="swiper-slide">
+                            <? 
+                            $image = CFile::ResizeImageGet(
+                                $picture, 
+                                ['width' => '960', 'height' => '960'],
+                                BX_RESIZE_IMAGE_EXACT,
+                                true
+                            ); 
+                            ?>
+                            <img 
+                                src="<?= $image['src']?>"  
+                                alt="<?= htmlspecialcharsbx($arItem["NAME"])?>" 
+                                loading="lazy"
+                            >
+                        </div>
+                    <? endforeach; ?>
+                <?else:?>
+                    <div class="swiper-slide product-no-image">
+                        <span>Нет фото</span>
+                    </div>
+                <?endif;?>
+                </div>
+                <div class="swiper-mouseover"></div>
             </div>
-        <? endif;?>
+            <div class="swiper-pagination"></div>
+
+        </div>
 
         <? $APPLICATION->IncludeComponent("intensa.favorite:item", "", 
             ['ELEMENT_ID' => $arItem["ID"],],
@@ -104,4 +133,3 @@
     </div>
 </div>
 <!-- Product card end -->
-

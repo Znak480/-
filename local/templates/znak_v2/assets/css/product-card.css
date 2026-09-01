@@ -35,9 +35,6 @@
     aspect-ratio: 1 / 1;
     width: 100%;
     border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: var(--spacing-xs);
-    background-color: #f5f5f5;
     flex-shrink: 0;
 }
 
@@ -162,6 +159,17 @@
 .product-card .product-card-actions .input-number {
     --in-block-height: 36px;
     --in-block-font-size: 12px;
+}
+
+.product-card-banner-container{
+    position: relative;
+    margin-block-end: 18px;
+}
+
+.product-card-banner-container .swiper-pagination{
+    bottom: 0;
+    transform: translateY(100%);
+    --swiper-pagination-bullet-size: 6px;
 }
 
 .product-card .product-card-actions .input-number .decrement,
@@ -404,10 +412,6 @@
         top: 6px;
         right: 12px;
         padding: 4px;
-    }
-
-    .product-card .product-card-image-wrapper {
-        margin-bottom: var(--spacing-sm);
     }
 
     .product-card .product-card-title {
