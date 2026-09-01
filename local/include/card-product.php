@@ -1,5 +1,4 @@
 <?
-
     if (!defined('PRODUCT_CARD_JS_LOADED')) {
         define('PRODUCT_CARD_JS_LOADED', true);
         $APPLICATION->AddHeadScript("/local/js/card-product.js");
@@ -8,17 +7,29 @@
     global $currentCity;
     $arItem['PRICES']['BASE']=$arItem['PRICES'][$currentCity['PRICE_CODE']['VALUE']];
     $badgeData = $arItem['BADGE_DATA'];
+
+    $priceData = getCardPriceData($arItem);
 ?>
 
 <!-- Product card start -->
 <div class="product-card <?=$arItem['ADDITIONAL_CLASSES']?>" data-product-id="<?=$arItem["ID"]?>" data-card="product">
     
     <div class="product-card-image-wrapper">
-      <?  if ($badgeData['MAIN_BADGE']): ?>
-        <div class="badge <?= $badgeData['MAIN_BADGE']["class"]?>">
-            <span class="badge-label"><?= $badgeData['MAIN_BADGE']['text'] ?></span>
+        <div class="badges">
+            <?  if ($badgeData['MAIN_BADGE']): ?>
+            <div class="badge <?= $badgeData['MAIN_BADGE']["class"]?>">
+                <span class="badge-label"><?= $badgeData['MAIN_BADGE']['text'] ?></span>
+            </div>
+            <? endif; ?>
+
+            <?if(!empty($badgeData['ADDITIONAL_BADGES'])):?>
+                <? foreach($badgeData['ADDITIONAL_BADGES'] as $additional): ?>
+                    <div class="badge <?= $additional["class"]?>">
+                        <span class="badge-label"><?= $additional['text'] ?></span>
+                    </div>
+                <? endforeach;?>
+            <?endif;?>
         </div>
-        <? endif; ?>
 
         <? if($arItem["PREVIEW_PICTURE"]["ID"]):?>
             <? 
@@ -56,34 +67,17 @@
 
     <? if (!empty($arItem['ITEM_PRICES'])): ?>
         <ul class="product-card-price">
-            <?
-                $currentPrice = $arItem['ITEM_PRICES'][0]['PRICE'];
-                $discount = (int)$arItem['PROPERTIES']['AKTSIYA_']['VALUE'];
-                $cardDiscount = (int)$arItem['PROPERTIES']['SKIDKA_PO_KARTE_']['VALUE'];
-                
-                if ($discount > 0) {
-                    $cardPrice = $currentPrice - ($discount / 100 * $currentPrice);
-                    $discountPercent = $discount;
-                } elseif ($cardDiscount > 0) {
-                    $cardPrice = $currentPrice - ($cardDiscount / 100 * $currentPrice);
-                    $discountPercent = $cardDiscount;
-                } else {
-                    $cardPrice = $currentPrice;
-                    $discountPercent = 0;
-                }
-            ?>
-
             <li>
-                <span class="product-card-price-title">цена без карты</span>
+                <span class="product-card-price-title"><?= $priceData['OLD_PRICE']['LABEL'] ?></span>
                 <div class="price">
-                    <span class="price-integer"><?= number_format($currentPrice, 2, ',', ' ') ?></span>
+                    <span class="price-integer"><?= $priceData['OLD_PRICE']['FORMATTED'] ?></span>
                     <span class="price-unit">&#8381</span>
                 </div>
             </li>
             <li>
-                <span class="product-card-price-title">цена по карте</span>
-                <div class="price price--accent">
-                    <span class="price-integer"><?= number_format($cardPrice, 2, ',', ' ') ?></span>
+                <span class="product-card-price-title"><?= $priceData['NEW_PRICE']['LABEL'] ?></span>
+                <div class="price <?= 'price--' . ($priceData['DISCOUNT']['TYPE'] === 'stock' ? 'stock' : 'accent') ?>">
+                    <span class="price-integer"><?= $priceData['NEW_PRICE']['FORMATTED'] ?></span>
                     <span class="price-unit">&#8381</span>
                 </div>
             </li>

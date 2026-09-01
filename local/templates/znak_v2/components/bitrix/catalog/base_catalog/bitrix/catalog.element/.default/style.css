@@ -470,8 +470,8 @@
 }
 
 .price-block .price-container .price {
-    --price-integer-fs: var(--font-size-sm);
-    --price-unit-fs: var(--font-size-xs);
+    --price-integer-fs: var(--font-size-md);
+    --price-unit-fs: var(--font-size-sm);
     font-size: var(--price-fs, var(--font-size-sm));
     white-space: nowrap;
     color: var(--price-color, inherit);
@@ -485,10 +485,18 @@
     font-size: var(--price-unit-fs);
 }
 
+.price-block .price-container .price.price--stock,
 .price-block .price-container .price.price--accent {
     --price-fs: var(--font-size-xl);
     --price-integer-fs: var(--font-size-xl);
     --price-unit-fs: var(--font-size-md);
+}
+
+.price-block .price-container .price.price--stock{
+    --price-color: var(--color-error);
+}
+
+.price-block .price-container .price.price--accent {
     --price-color: var(--color-primary);
 }
 

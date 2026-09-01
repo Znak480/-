@@ -4,20 +4,7 @@ global $currentCity;
 
 $badgeData = ProductBadgeManager::getInstance()->getBadges($arResult);
 
-$currentPrice = $arResult['ITEM_PRICES'][0]['PRICE'];
-$discount = (int)$arResult['PROPERTIES']['AKTSIYA_']['VALUE'];
-$cardDiscount = (int)$arResult['PROPERTIES']['SKIDKA_PO_KARTE_']['VALUE'];
-
-if ($discount > 0) {
-    $cardPrice = $currentPrice - ($discount / 100 * $currentPrice);
-    $discountPercent = $discount;
-} elseif ($cardDiscount > 0) {
-    $cardPrice = $currentPrice - ($cardDiscount / 100 * $currentPrice);
-    $discountPercent = $cardDiscount;
-} else {
-    $cardPrice = $currentPrice;
-    $discountPercent = 0;
-}
+$priceData = getCardPriceData($arResult);
 
 $arResult['PRICES']['BASE'] = $arResult['PRICES'][$currentCity['PRICE_CODE']['VALUE']];
 $measure= $arResult["PROPERTIES"]["MEASURE"];
@@ -154,18 +141,28 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                                 []
                             );?>
                         </div>
+
                         <ul class="price-block">
                             <li class="price-container">
-                                <span class="price-container-title">цена без карты</span>
+                                <span class="price-container-title"><?= $priceData['OLD_PRICE']['LABEL'] ?></span>
                                 <div class="price">
-                                    <span class="price-integer"><?= number_format($currentPrice, 2, ',', ' ') ?></span>
+                                    <span class="price-integer"><?= $priceData['OLD_PRICE']['FORMATTED'] ?></span>
                                     <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
                                 </div>
                             </li>
+                            <?if($priceData['DISCOUNT']['TYPE'] !== "none"):?>
                             <li class="price-container">
-                                <span class="price-container-title">цена по карте</span>
-                                <div class="price price--accent">
-                                    <span class="price-integer"><?= number_format($cardPrice, 2, ',', ' ') ?></span>
+                                <span class="price-container-title"><?= $priceData['SAVED']['LABEL'] ?></span>
+                                <div class="price">
+                                    <span class="price-integer"><?= $priceData['SAVED']['FORMATTED'] ?></span>
+                                    <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
+                                </div>
+                            </li>
+                            <?endif;?>
+                            <li class="price-container">
+                                <span class="price-container-title"><?= $priceData['NEW_PRICE']['LABEL'] ?></span>
+                                <div class="price <?= 'price--' . ($priceData['DISCOUNT']['TYPE'] === 'stock' ? 'stock' : 'accent') ?>">
+                                    <span class="price-integer"><?= $priceData['NEW_PRICE']['FORMATTED'] ?></span>
                                     <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
                                 </div>
                             </li>
