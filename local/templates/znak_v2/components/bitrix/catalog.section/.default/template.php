@@ -236,8 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     await synchronizeItemsWithBasket();
                 }
 
-                if(typeof window.loadProductSlider === 'function'){
-                    window.loadProductSlider();
+                if(typeof window.updateSliderMouseover === 'function'){
+                   window.updateSliderMouseover();
                 }
             } catch (error) {
                 if (error.name === 'AbortError') {

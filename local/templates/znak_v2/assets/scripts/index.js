@@ -316,31 +316,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
     //Инициализация аккордеона на странице design_project (Дизайн проект)
     const accordion = new Accordion(".design-aq-list", { closeOthers: false, })
 
-    const sliders = window.loadProductSlider();
-    function updateSliderMouseover() {
-        const width = window.innerWidth;
 
-        sliders.forEach(slider => {
-            const mouseover = slider.el.querySelector(".swiper-mouseover");
-            if (!mouseover) return;
-
-            if (width > 1024) {
-                mouseover.style.inset = 0;
-            } else {
-                mouseover.style.inset = "auto";
-            }
-        });
-    }
 
     let resizeTimeout;
     window.addEventListener('resize', function () {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(updateSliderMouseover, 250);
+        resizeTimeout = setTimeout(window.updateSliderMouseover, 250);
     });
 
-    updateSliderMouseover();
+    window.updateSliderMouseover();
 });
 
+window.updateSliderMouseover = function () {
+    const sliders = window.loadProductSlider();
+    const width = window.innerWidth;
+
+    sliders.forEach(slider => {
+        const mouseover = slider.el.querySelector(".swiper-mouseover");
+        if (!mouseover) return;
+
+        if (width > 1024) {
+            mouseover.style.inset = 0;
+        } else {
+            mouseover.style.inset = "auto";
+        }
+    });
+}
 
 
 window.loadProductSlider = function () {
