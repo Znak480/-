@@ -316,43 +316,40 @@ document.addEventListener('DOMContentLoaded', (event) => {
     //Инициализация аккордеона на странице design_project (Дизайн проект)
     const accordion = new Accordion(".design-aq-list", { closeOthers: false, })
 
-
-
     let resizeTimeout;
     window.addEventListener('resize', function () {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(window.updateSliderMouseover, 250);
+        resizeTimeout = setTimeout(function () {
+            window.updateSliderMouseover();
+        }, 250);
     });
+
+    window.loadProductSlider();
 
     window.updateSliderMouseover();
 });
 
-window.updateSliderMouseover = function () {
-    const sliders = window.loadProductSlider();
-    const width = window.innerWidth;
 
-    sliders.forEach(slider => {
-        const mouseover = slider.el.querySelector(".swiper-mouseover");
-        if (!mouseover) return;
-
-        if (width > 1024) {
-            mouseover.style.inset = 0;
-        } else {
-            mouseover.style.inset = "auto";
-        }
-    });
-}
-
+let productSliders = [];
 
 window.loadProductSlider = function () {
-    const swipers = [];
+    productSliders.forEach(slider => {
+        if (slider && slider.destroy) {
+            slider.destroy(true, true);
+        }
+    });
+    productSliders = [];
 
     document.querySelectorAll('[data-card="product-slider"]').forEach(function (element, index) {
+        const bannerContainer = element.closest(".product-card-banner-container");
+
+        if (element.swiper) {
+            element.swiper.destroy(true, true);
+        }
 
         const swiperInstance = new Swiper(element, {
             modules: [MouseoverPlugin],
             slidesPerView: 1,
-            spaceBetween: 4,
             mouseover: {
                 el: element.querySelector(".swiper-mouseover"),
                 reset: true,
@@ -363,12 +360,14 @@ window.loadProductSlider = function () {
             resizeObserver: true,
 
             pagination: {
-                el: element.nextElementSibling,
+                el: bannerContainer.querySelector(".swiper-pagination"),
                 type: 'bullets',
             },
         });
 
-        swipers[index] = swiperInstance;
+        // Сохраняем ссылку на экземпляр в DOM элементе
+        element.swiper = swiperInstance;
+        productSliders[index] = swiperInstance;
 
         let touchTimeout;
         swiperInstance.on('touchEnd', function (swiper, event) {
@@ -379,9 +378,27 @@ window.loadProductSlider = function () {
         });
     });
 
-    return swipers;
-}
+    return productSliders;
+};
 
+// Функция обновления эффекта mouseover при ресайзе
+window.updateSliderMouseover = function () {
+    const sliders = productSliders.length ? productSliders : window.loadProductSlider();
+    const width = window.innerWidth;
+
+    sliders.forEach(slider => {
+        if (!slider || !slider.el) return;
+
+        const mouseover = slider.el.querySelector(".swiper-mouseover");
+        if (!mouseover) return;
+
+        if (width > 1024) {
+            mouseover.style.visibility = "visible";
+        } else {
+            mouseover.style.visibility = "hidden";
+        }
+    });
+};
 
 BX.ready(function () {
     BX.addCustomEvent('onIntensaFavoriteChange', function (data) {
