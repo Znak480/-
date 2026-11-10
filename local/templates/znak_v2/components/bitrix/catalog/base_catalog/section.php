@@ -157,6 +157,28 @@ $APPLICATION->ShowViewContent('sectionDiscription');
         </div>
     </section>
     <? endif; ?>
+
+    <section class="banner-section">
+        <div class="container">
+            <div class="product-rang-banner">
+                
+                <div class="product-rang-banner-inner">
+                    <button class="btn-rang-close" aria-label="Закрыть">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
+                            <path d="M0 0h64v64H0z" fill="none" />
+                            <path fill="currentColor" d="M62 10.571L53.429 2L32 23.429L10.571 2L2 10.571L23.429 32L2 53.429L10.571 62L32 40.571L53.429 62L62 53.429L40.571 32z" />
+                        </svg>
+                    </button>
+                    <div class="product-rang-banner-text">
+                        <strong>Больше выбора — в нашем торговом зале!</strong>
+                        <p>На сайте представлена только часть ассортимента. В магазине вас ждёт гораздо больше моделей на любой бюджет.</p>
+                        <p>При покупке в торговом зале обязательно скажите, что вы пришли с <strong>Сайта</strong>.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section> 
    
     <!-- Основной блок каталога -->
     <section class="catalog-products catalog-products--specific">

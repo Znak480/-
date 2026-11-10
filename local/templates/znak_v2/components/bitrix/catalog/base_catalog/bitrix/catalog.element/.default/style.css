@@ -98,6 +98,10 @@
     --price-unit-fs: 12px;
 }
 
+.product-section-wrapper .banner-section{
+    margin-block-start: 24px;
+}
+
 /* ===== медиа для .product-section-wrapper на ≥1024px ===== */
 @media (min-width: 1024px) {
     .product-section-wrapper > .product-content {
@@ -105,11 +109,12 @@
         grid-template-columns: minmax(570px, 1fr) minmax(320px, 420px);
         grid-template-areas:
             "gallery info"
-            "nav     ."
-            "desc    ."
-            "chars   ."
-            "related ."
-            "advice  .";
+            "banner     ."
+            "nav        ."
+            "desc       ."
+            "chars      ."
+            "related    ."
+            "advice     .";
         column-gap: 48px;
         align-items: start;
         padding-block-end: 40px;
@@ -132,6 +137,10 @@
         grid-area: info;
         align-self: start;
         margin-block-start: 0;
+    }
+
+    .product-section-wrapper .banner-section{
+        grid-area: banner;
     }
 
     .product-section-wrapper .product-navigation {

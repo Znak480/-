@@ -185,8 +185,42 @@ document.addEventListener('click', (e) => {
     }
 });
 
+
+function bindStickyElementTop(){
+    const element = document.querySelector("[data-element='sticky']");
+    const headerFixed = document.querySelector('.header-fixed');
+
+    if(!element) return;
+
+    const headerHeight = headerFixed.offsetHeight;
+    const topGap = headerHeight + 10;
+
+    element.style.top = `${topGap}px`
+}
+
 //Загрузка контента
 document.addEventListener('DOMContentLoaded', (event) => {
+    bindStickyElementTop();
+
+    const btnBanner = document.querySelector(".btn-rang-close");
+
+    if(btnBanner){
+        btnBanner.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const section = e.target.closest(".banner-section");
+            
+            if(!section) return;
+            
+            section.classList.add("closing");
+
+            section.addEventListener('transitionend', (e) => {
+                if (e.propertyName !== 'max-height') return;
+                section.classList.add('hidden');
+            }, { once: true });
+        })
+    }
+
     modalSystem.register({
         id: 'mobile-sidebar',
         selector: '#mobile-menu'
