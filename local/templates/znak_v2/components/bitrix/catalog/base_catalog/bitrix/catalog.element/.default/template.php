@@ -94,7 +94,7 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                         </div>
                     </div>
 
-                    <div class="product-info">
+                    <div class="product-info" data-product-id="<?=$arResult["ID"]?>" data-card="product">
                          <? $APPLICATION->IncludeComponent(
                                 "intensa.favorite:item", 
                                 "", 
@@ -169,8 +169,24 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                         </ul>
 
                         <div class="product-actions">
+                             <div class="input-number card-input-number">
+                                <button class="decrement">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 11H5V13H19V11Z"></path>
+                                    </svg>
+                                </button>
+                                <input type="number" class="quantity" value="1" min="1">
+                                <button class="increment">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M13.0001 10.9999L22.0002 10.9997L22.0002 12.9997L13.0001 12.9999L13.0001 21.9998L11.0001 21.9998L11.0001 12.9999L2.00004 13.0001L2 11.0001L11.0001 10.9999L11 2.00025L13 2.00024L13.0001 10.9999Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
                             <button class="btn btn-primary btn-product-card" data-id="<?=$arResult["ID"]?>">В корзину</button>
                         </div>
+                        
                         <? if(!empty($measure)): ?>
                         <div class="product-info-terms">
                             <p class="terms-text">

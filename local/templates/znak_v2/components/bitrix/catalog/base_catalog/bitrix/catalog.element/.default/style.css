@@ -357,6 +357,15 @@
     --btn-padding-inline: 20px;
 }
 
+.product-info .product-actions .input-number{
+    --in-block-height: 45px;
+    --in-block-font-size: 16px;
+}
+.product-info .product-actions .input-number .increment>svg{
+    width: 18px;
+    height: 18px;
+}
+
 .product-info .product-info-mobile-action {
     display: flex;
     align-items: center;
