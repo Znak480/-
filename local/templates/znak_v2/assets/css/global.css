@@ -293,7 +293,6 @@ img {
     font-weight: bold;
     text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
-
 .radio,
 .checkbox {
     display: inline-flex;
@@ -303,13 +302,17 @@ img {
     padding-block: var(--spacing-xs);
 }
 
+.radio:not(:has(.radio-description, .checkbox-description)),
+.checkbox:not(:has(.radio-description, .checkbox-description)) {
+    align-items: center;
+}
+
 .radio:has(:checked),
 .checkbox:has(:checked) {
     border-color: var(--color-primary, #007bff);
 }
 
-.radio .radio-input,
-.checkbox .checkbox-input {
+:is(.radio, .checkbox) :is(.radio-input, .checkbox-input) {
     flex-shrink: 0;
     width: 16px;
     height: 16px;
@@ -318,55 +321,45 @@ img {
     accent-color: var(--color-primary);
 }
 
-.radio .radio-input:checked,
-.checkbox .checkbox-input:checked {
+:is(.radio, .checkbox) :is(.radio-input, .checkbox-input):checked {
     accent-color: var(--color-primary);
 }
 
-.radio .radio-input:focus-visible,
-.checkbox .checkbox-input:focus-visible {
+:is(.radio, .checkbox) :is(.radio-input, .checkbox-input):focus-visible {
     outline: 2px solid var(--color-bg-primary);
     outline-offset: 2px;
 }
 
-.radio .radio-content,
-.checkbox .checkbox-content {
+:is(.radio, .checkbox) :is(.radio-content, .checkbox-content) {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.radio .radio-label,
-.checkbox .checkbox-label {
+:is(.radio, .checkbox) :is(.radio-label, .checkbox-label) {
     font-size: 16px;
     font-weight: 600;
     color: var(--text-secondary-color, #333);
     cursor: pointer;
 }
 
-.radio .radio-description,
-.checkbox .checkbox-description {
+:is(.radio, .checkbox) :is(.radio-description, .checkbox-description) {
     font-size: 14px;
     color: var(--text-primary-color, #666);
     line-height: 1.5;
     margin: 0;
 }
 
-.radio:has(.radio-input:disabled),
-.checkbox:has(.checkbox-input:disabled) {
+:is(.radio, .checkbox):has(.radio-input:disabled, .checkbox-input:disabled) {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.radio:has(.radio-input:disabled) .radio-label,
-.radio:has(.radio-input:disabled) .radio-description,
-.checkbox:has(.checkbox-input:disabled) .checkbox-label,
-.checkbox:has(.checkbox-input:disabled) .checkbox-description {
+:is(.radio, .checkbox):has(.radio-input:disabled, .checkbox-input:disabled) :is(.radio-label, .checkbox-label, .radio-description, .checkbox-description) {
     cursor: not-allowed;
 }
 
-.radio:not(:has(:disabled)):hover,
-.checkbox:not(:has(:disabled)):hover {
+:is(.radio, .checkbox):not(:has(:disabled)):hover {
     background: #f8f9fa;
     border-color: #ccc;
 }
@@ -381,15 +374,13 @@ img {
     min-width: 240px;
 }
 
-.input-group[data-required="true"]>label::after,
-.input-wrapper[data-required="true"]>label::after {
+:is(.input-group, .input-wrapper)[data-required="true"] > label::after {
     content: ' *';
     color: #e74c3c;
     font-weight: bold;
 }
 
-.input-group label,
-.input-wrapper label {
+:is(.input-group, .input-wrapper) label {
     display: inline-block;
     padding-inline: 12px;
     font-size: 12px;
@@ -405,8 +396,8 @@ img {
     transform: translateY(-21px);
 }
 
-.input-group input,
-.input-wrapper input {
+:is(.input-group, .input-wrapper) textarea,
+:is(.input-group, .input-wrapper) input {
     font-size: 14px;
     color: #555;
     outline: none;
@@ -419,25 +410,21 @@ img {
     transition: border-color 0.3s ease;
 }
 
-.input-group input:focus,
-.input-wrapper input:focus {
+:is(.input-group, .input-wrapper) input:focus {
     border-color: var(--color-primary, #007bff);
 }
 
-.input-group input[data-required="true"]+label::after,
-.input-wrapper input[data-required="true"]+label::after {
+:is(.input-group, .input-wrapper) input[data-required="true"] + label::after {
     content: ' *';
     color: #e74c3c;
     font-weight: bold;
 }
 
-.input-group input:required:invalid:not(:placeholder-shown),
-.input-wrapper input:required:invalid:not(:placeholder-shown) {
+:is(.input-group, .input-wrapper) input:required:invalid:not(:placeholder-shown) {
     border-color: #e74c3c;
 }
 
-.input-group input:required:valid:not(:placeholder-shown),
-.input-wrapper input:required:valid:not(:placeholder-shown) {
+:is(.input-group, .input-wrapper) input:required:valid:not(:placeholder-shown) {
     border-color: #2ecc71;
 }
 
@@ -509,49 +496,50 @@ img {
 }
 
 .empty-page {
-    padding: var(--spacing-2xl) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 260px;
+    /* padding: var(--spacing-2xl) var(--spacing-md); */
     text-align: center;
     border-radius: 1rem;
     box-shadow: none;
-    margin-bottom: var(--spacing-md);
+    margin: 20px 0;
 }
 
 .empty-page .empty-title {
-    font-size: var(--font-size-xl, 20px);
+    font-size: var(--font-size-2xl, 20px);
     font-weight: 700;
-    margin-bottom: var(--spacing-sm);
+    margin-block-start: 0;
+    margin-bottom: var(--spacing-md);
     color: var(--text-secondary-color, #333);
 }
 
 .empty-page .empty-description {
-    font-size: var(--font-size-sm, 12px);
+    font-size: var(--font-size-md, 12px);
     margin-bottom: var(--spacing-lg);
     color: var(--text-primary-color, #666);
 }
 
-@media (max-width: 480px) {
-    .empty-page .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
 @media (min-width: 480px) {
     .empty-page {
-        padding: var(--spacing-3xl) var(--spacing-xl);
+        min-height: 300px;
     }
+
+    .empty-page .empty-title,
     .empty-page .checkbox-label {
-        font-size: var(--font-size-2xl, 24px);
+        font-size: var(--font-size-3xl);
     }
     .empty-page .empty-description {
-        font-size: var(--font-size-base, 14px);
+        font-size: var(--font-size-lg);
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 865px) {
     .empty-page {
-        box-shadow: 0 3px 21px rgba(0, 0, 0, 0.09);
-        margin-bottom: var(--spacing-xl);
+        margin: 40px 0;
     }
 }
 
