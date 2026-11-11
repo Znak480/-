@@ -1,6 +1,8 @@
 <?php 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die(); 
 
+global $APPLICATION;
+
 use Bitrix\Main\Page\Asset;
 use Bitrix\Main\Localization\Loc;
 
@@ -21,6 +23,7 @@ Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/main.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/account.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/product-item.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/cart.css");
+Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/modal.css");
 
 Asset::getInstance()->addJs("https://code.jquery.com/jquery-3.7.1.min.js");
 Asset::getInstance()->addJs("https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js");
