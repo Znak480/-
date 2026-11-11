@@ -1,6 +1,8 @@
 import { modalSystem } from './modules/modal/modalSystem.js';
 import { showMore } from './modules/showMore.js';
 
+
+window.modalSystem = modalSystem;
 // Класс отвечающий за контроль состояния элемента аккордина на странице
 class AccordionItem {
     constructor(element) {
