@@ -98,6 +98,10 @@
     --price-unit-fs: 12px;
 }
 
+.product-section-wrapper .banner-section{
+    margin-block-start: 24px;
+}
+
 /* ===== медиа для .product-section-wrapper на ≥1024px ===== */
 @media (min-width: 1024px) {
     .product-section-wrapper > .product-content {
@@ -105,11 +109,12 @@
         grid-template-columns: minmax(570px, 1fr) minmax(320px, 420px);
         grid-template-areas:
             "gallery info"
-            "nav     ."
-            "desc    ."
-            "chars   ."
-            "related ."
-            "advice  .";
+            "banner     ."
+            "nav        ."
+            "desc       ."
+            "chars      ."
+            "related    ."
+            "advice     .";
         column-gap: 48px;
         align-items: start;
         padding-block-end: 40px;
@@ -132,6 +137,10 @@
         grid-area: info;
         align-self: start;
         margin-block-start: 0;
+    }
+
+    .product-section-wrapper .banner-section{
+        grid-area: banner;
     }
 
     .product-section-wrapper .product-navigation {
@@ -348,6 +357,15 @@
     --btn-padding-inline: 20px;
 }
 
+.product-info .product-actions .input-number{
+    --in-block-height: 45px;
+    --in-block-font-size: 16px;
+}
+.product-info .product-actions .input-number .increment>svg{
+    width: 18px;
+    height: 18px;
+}
+
 .product-info .product-info-mobile-action {
     display: flex;
     align-items: center;
@@ -470,8 +488,8 @@
 }
 
 .price-block .price-container .price {
-    --price-integer-fs: var(--font-size-sm);
-    --price-unit-fs: var(--font-size-xs);
+    --price-integer-fs: var(--font-size-md);
+    --price-unit-fs: var(--font-size-sm);
     font-size: var(--price-fs, var(--font-size-sm));
     white-space: nowrap;
     color: var(--price-color, inherit);
@@ -485,10 +503,18 @@
     font-size: var(--price-unit-fs);
 }
 
+.price-block .price-container .price.price--stock,
 .price-block .price-container .price.price--accent {
     --price-fs: var(--font-size-xl);
     --price-integer-fs: var(--font-size-xl);
     --price-unit-fs: var(--font-size-md);
+}
+
+.price-block .price-container .price.price--stock{
+    --price-color: var(--color-error);
+}
+
+.price-block .price-container .price.price--accent {
     --price-color: var(--color-primary);
 }
 

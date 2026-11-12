@@ -2,27 +2,24 @@
 namespace Znak\Price;
 
 use Bitrix\Main\Loader;
-use Bitrix\Iblock\Iblock;
 Loader::includeModule("iblock");
 Loader::includeModule("catalog");
 
-
-
 class PriceProcessor{
 
-    public static function calcPrice($priceData) {    
-        $currentPrice = isset($priceData['PRICE']) 
-            ? $priceData['PRICE'] 
+    public static function calcPrice($priceData) {
+        $currentPrice = isset($priceData['PRICE'])
+            ? $priceData['PRICE']
             : 0;
-        
-        $stock = isset($priceData['AKTSIYA']) 
-            ? (int)$priceData['AKTSIYA'] 
+
+        $stock = isset($priceData['AKTSIYA'])
+            ? (int)$priceData['AKTSIYA']
             : 0;
-        
-        $discount = isset($priceData['SKIDKA']) 
-            ? (int)$priceData['SKIDKA'] 
+
+        $discount = isset($priceData['SKIDKA'])
+            ? (int)$priceData['SKIDKA']
             : 0;
-        
+
         $stock = min($stock, 100);
         $discount = min($discount, 100);
         $isChanged = true;
@@ -30,24 +27,28 @@ class PriceProcessor{
         $calcDiscount = fn($procent) => $currentPrice * (1 - $procent / 100);
 
         if ($discount > 0) {
-            $cardPrice = $calcDiscount($discount); 
+            $cardPrice = $calcDiscount($discount);
             $discountPercent = $discount;
+            $discountType = 'card';
         } elseif ($stock > 0) {
             $cardPrice = $calcDiscount($stock);
             $discountPercent = $stock;
+            $discountType = 'aktsiya';
         } else {
             $cardPrice = $currentPrice;
             $discountPercent = 0;
             $isChanged = false;
+            $discountType = 'none';
         }
-        
+
         return [
             "CURRENT_PRICE" => $currentPrice,
             "DISCOUNT_PRICE" => $cardPrice,
             "DISCOUNTPERCENT_VALUE" => $discountPercent,
             "PRICE_CHANGED_FLAG" => $isChanged,
+           
             "DISCOUNT_VALUE" => $currentPrice - $cardPrice,
-            "DISCOUNT_TYPE" => $discount > 0 ? 'aktsiya' : ($stock > 0 ? 'card' : 'none')
+            "DISCOUNT_TYPE" => $discountType
         ];
     }
 
@@ -60,11 +61,11 @@ class PriceProcessor{
         if (empty($arResult)) {
             return;
         }
-        
+
         if ($iblockId === null) {
             $iblockId = (int)($currentCity['IBLOCK_CATALOG']['VALUE']);
         }
-         
+
         if ($iblockId <= 0) {
             return;
         }
@@ -72,14 +73,14 @@ class PriceProcessor{
         if ($priceId === null) {
             $priceId = $currentCity['PRICE_ID']['VALUE'] ?? null;
         }
-        
+
         if (empty($priceId)) {
             return;
         }
 
         $productIds = [];
         foreach ($arResult as $item) {
-            $productIds[] = (int)$item['PRODUCT_ID'] ?? (int)$item['ID'];
+            $productIds[] = (int)($item['PRODUCT_ID'] ?? $item['ID']);
         }
 
         if (empty($productIds)) {
@@ -114,7 +115,7 @@ class PriceProcessor{
             false,
             $arSelect
         );
-        
+
         $prices = [];
         while ($ob = $res->GetNextElement()) {
             $arFields = $ob->GetFields();
@@ -125,15 +126,15 @@ class PriceProcessor{
                 "AKTSIYA" => $arProps["AKTSIYA_"]["VALUE"],
                 "SKIDKA" => $arProps["SKIDKA_PO_KARTE_"]["VALUE"]
             ];
-            
+
             $prices[$arFields["ID"]] = self::calcPrice($priceData);
         }
-        
+
         foreach ($arResult as &$item) {
-            
-            $item["PRICE_DATA"] = $prices[$item['PRODUCT_ID'] ?? $item["ID"]] ?? null;
+            $productId = (int)($item['PRODUCT_ID'] ?? $item['ID']);
+            $item["PRICE_DATA"] = $prices[$productId] ?? null;
         }
         unset($item);
-    }   
+    }
 }
 ?>

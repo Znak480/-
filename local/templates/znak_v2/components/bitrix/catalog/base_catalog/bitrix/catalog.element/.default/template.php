@@ -4,20 +4,7 @@ global $currentCity;
 
 $badgeData = ProductBadgeManager::getInstance()->getBadges($arResult);
 
-$currentPrice = $arResult['ITEM_PRICES'][0]['PRICE'];
-$discount = (int)$arResult['PROPERTIES']['AKTSIYA_']['VALUE'];
-$cardDiscount = (int)$arResult['PROPERTIES']['SKIDKA_PO_KARTE_']['VALUE'];
-
-if ($discount > 0) {
-    $cardPrice = $currentPrice - ($discount / 100 * $currentPrice);
-    $discountPercent = $discount;
-} elseif ($cardDiscount > 0) {
-    $cardPrice = $currentPrice - ($cardDiscount / 100 * $currentPrice);
-    $discountPercent = $cardDiscount;
-} else {
-    $cardPrice = $currentPrice;
-    $discountPercent = 0;
-}
+$priceData = getCardPriceData($arResult);
 
 $arResult['PRICES']['BASE'] = $arResult['PRICES'][$currentCity['PRICE_CODE']['VALUE']];
 $measure= $arResult["PROPERTIES"]["MEASURE"];
@@ -107,7 +94,7 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                         </div>
                     </div>
 
-                    <div class="product-info">
+                    <div class="product-info" data-product-id="<?=$arResult["ID"]?>" data-card="product">
                          <? $APPLICATION->IncludeComponent(
                                 "intensa.favorite:item", 
                                 "", 
@@ -154,26 +141,52 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                                 []
                             );?>
                         </div>
+
                         <ul class="price-block">
                             <li class="price-container">
-                                <span class="price-container-title">цена без карты</span>
+                                <span class="price-container-title"><?= $priceData['OLD_PRICE']['LABEL'] ?></span>
                                 <div class="price">
-                                    <span class="price-integer"><?= number_format($currentPrice, 2, ',', ' ') ?></span>
+                                    <span class="price-integer"><?= $priceData['OLD_PRICE']['FORMATTED'] ?></span>
                                     <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
                                 </div>
                             </li>
+                            <?if($priceData['DISCOUNT']['TYPE'] !== "none"):?>
                             <li class="price-container">
-                                <span class="price-container-title">цена по карте</span>
-                                <div class="price price--accent">
-                                    <span class="price-integer"><?= number_format($cardPrice, 2, ',', ' ') ?></span>
+                                <span class="price-container-title"><?= $priceData['SAVED']['LABEL'] ?></span>
+                                <div class="price">
+                                    <span class="price-integer"><?= $priceData['SAVED']['FORMATTED'] ?></span>
+                                    <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
+                                </div>
+                            </li>
+                            <?endif;?>
+                            <li class="price-container">
+                                <span class="price-container-title"><?= $priceData['NEW_PRICE']['LABEL'] ?></span>
+                                <div class="price <?= 'price--' . ($priceData['DISCOUNT']['TYPE'] === 'stock' ? 'stock' : 'accent') ?>">
+                                    <span class="price-integer"><?= $priceData['NEW_PRICE']['FORMATTED'] ?></span>
                                     <span class="price-unit">&#8381<?= '/' . $measure['SYMBOL']?></span>
                                 </div>
                             </li>
                         </ul>
 
                         <div class="product-actions">
+                             <div class="input-number card-input-number">
+                                <button class="decrement">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 11H5V13H19V11Z"></path>
+                                    </svg>
+                                </button>
+                                <input type="number" class="quantity" value="1" min="1">
+                                <button class="increment">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M13.0001 10.9999L22.0002 10.9997L22.0002 12.9997L13.0001 12.9999L13.0001 21.9998L11.0001 21.9998L11.0001 12.9999L2.00004 13.0001L2 11.0001L11.0001 10.9999L11 2.00025L13 2.00024L13.0001 10.9999Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
                             <button class="btn btn-primary btn-product-card" data-id="<?=$arResult["ID"]?>">В корзину</button>
                         </div>
+                        
                         <? if(!empty($measure)): ?>
                         <div class="product-info-terms">
                             <p class="terms-text">
@@ -182,6 +195,27 @@ $measure= $arResult["PROPERTIES"]["MEASURE"];
                         </div>
                         <?endif;?>
                     </div>
+
+                    
+                    <div class="banner-section">
+                        <div class="product-rang-banner">
+                        
+                            <div class="product-rang-banner-inner">
+                                <button class="btn-rang-close" aria-label="Закрыть">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
+                                        <path d="M0 0h64v64H0z" fill="none" />
+                                        <path fill="currentColor" d="M62 10.571L53.429 2L32 23.429L10.571 2L2 10.571L23.429 32L2 53.429L10.571 62L32 40.571L53.429 62L62 53.429L40.571 32z" />
+                                    </svg>
+                                </button>
+                                <div class="product-rang-banner-text">
+                                    <strong>Больше выбора — в нашем торговом зале!</strong>
+                                    <p>На сайте представлена только часть ассортимента. В магазине вас ждёт гораздо больше моделей на любой бюджет.</p>
+                                    <p>При покупке в торговом зале обязательно скажите, что вы пришли с <strong>Сайта</strong>.</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div> 
                     
                     <div class="product-content-block product-navigation">
                         <div class="product-navigation-content">

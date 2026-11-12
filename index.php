@@ -188,7 +188,7 @@ global $currentCity;
 					"CACHE_TIME" => "3600",
 					"CACHE_GROUPS" => "Y",
 					"COUNT_ELEMENTS" => "Y",
-					"TOP_DEPTH" => 1,                  
+					"TOP_DEPTH" => 2,                  
 					"SECTION_URL" => "/catalog/#SECTION_CODE_PATH#/",
 					"VIEW_MODE" => "LIST",
 					"SHOW_PARENT_NAME" => "N",

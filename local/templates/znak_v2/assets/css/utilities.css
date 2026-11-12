@@ -7,7 +7,7 @@
     padding-inline: var(--spacing-sm);
     background: var(--badge-color);
     display: flex;
-    align-self: center;
+    /* align-self: center; */
     justify-content: center;
     border-radius: 4px;
 }
@@ -30,6 +30,10 @@
 
 .badge--sale {
     --badge-color: #E31E24;
+}
+
+.badge--season{
+    --badge-color: #729e00;
 }
 
 .badge-label {
@@ -472,4 +476,10 @@
     display: flex;
     flex-direction: row;
     margin-block-start: var(--spacing-md);
+}
+
+[no-title] .breadcrumb  .breadcrumb-title{
+    display:none !important;
+    opacity:0;
+    visibility:hidden;
 }

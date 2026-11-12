@@ -50,3 +50,5 @@ if(file_exists($_SERVER["DOCUMENT_ROOT"] . '/local/classes/ProductBadgeManager.p
 Loader::registerAutoLoadClasses(null, [
     'Znak\\Price\\PriceProcessor' => '/local/lib/price/processor.php',
 ]);
+
+require_once __DIR__ . '/include/functions.php';
