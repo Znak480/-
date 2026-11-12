@@ -140,18 +140,33 @@ function getHeaderHeight() {
     return header.getBoundingClientRect().top + window.scrollY + headerHeight;
 }
 
+
+let isClosedBanner = false;
 function updateFixedHeader() {
     const fixedHeader = document.querySelector('.header-fixed');
+    const banner = document.querySelector('.product-rang-banner');
+
+    const isMobile = window.innerWidth <= 1024;
+
     if (!fixedHeader) return;
 
     const triggerPoint = getHeaderHeight();
 
     if (window.scrollY > triggerPoint) {
         fixedHeader.classList.add('active');
+
     } else {
         fixedHeader.classList.remove('active');
     }
 
+    if (!isMobile && banner) {
+        if (window.scrollY > triggerPoint && !isClosedBanner) {
+            banner.classList.remove('close');
+
+        } else {
+            banner.classList.add('close');
+        }
+    }
     const openDropdowns = document.querySelectorAll('.region-dropdown.open');
     openDropdowns.forEach(function (dropdown) {
         const parentFixed = dropdown.closest('.header-fixed');
@@ -160,6 +175,42 @@ function updateFixedHeader() {
         }
     });
 
+}
+
+function bannerEventBinding() {
+    const banner = document.querySelector('.product-rang-banner');
+
+    if (!banner) {
+        return;
+    }
+
+    const closeBtn = banner.querySelector('.btn-rang-close');
+    const toggleBtn = banner.querySelector('.product-rang-banner-toggle');
+
+    closeBtn.addEventListener('click', () => {
+        banner.classList.add('close');
+        isClosedBanner = true;
+    });
+
+    toggleBtn.addEventListener('click', () => {
+        banner.classList.remove('close');
+        isClosedBanner = false;
+    });
+
+    closeBtn.addEventListener('click', () => {
+        banner.classList.add('close');
+        localStorage.setItem('bannerClosed', 'true');
+    });
+
+    if (localStorage.getItem('bannerClosed') === 'true') {
+        banner.classList.add('close');
+        isClosedBanner = true;
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        banner.classList.remove('close');
+        localStorage.removeItem('bannerClosed');
+    });
 }
 
 let scrollTimer;
@@ -254,6 +305,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         },
         'catalog': {
             open: () => window.location.href = '/catalog',
+            open: () => window.location.href = '/catalog',
         },
         'toggle-action': {
             open: () => openContext()
@@ -300,6 +352,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const input = btn.closest('.input-number').querySelector('.quantity');
         let value = parseInt(input.value) || 1;
+
+
         let modificator = 1;
         if (btn.classList.contains('increment')) {
             value++;
@@ -321,6 +375,67 @@ document.addEventListener('DOMContentLoaded', (event) => {
         id: "filter",
         selector: ".catalog-filter-sidebar",
     });
+
+    //TODO: реализовать корректное отображение номера телефона
+    //Добавить в модальное окно номер телефона
+    modalSystem.register({
+        id: "raspil-ldsp",
+        selector: "#raspilovka-contact-us"
+    });
+
+
+    function closeRaspilovka(modal) {
+        if (modalSystem.isOpen && modalSystem.isOpen("raspil-ldsp")) {
+            modalSystem.close("raspil-ldsp");
+        }
+        modal.classList.remove('open', 'active');
+        if (window.tooltipTimer) {
+            clearTimeout(window.tooltipTimer);
+            window.tooltipTimer = null;
+        }
+    }
+
+    function toggleRaspilovka(e) {
+        const button = e.target.closest('[data-entity="btn-raspilovka"]');
+        if (!button) return;
+
+        const modal = document.querySelector("#raspilovka-contact-us");
+        const isMobile = window.innerWidth < 1024;
+
+        clearTimeout(window.tooltipTimer);
+
+        if (isMobile) {
+            modal.classList.remove('active');
+            if (modalSystem.isOpen("raspil-ldsp")) {
+                modalSystem.close("raspil-ldsp");
+            } else {
+                modalSystem.open("raspil-ldsp");
+            }
+        } else {
+            if (modalSystem.isOpen("raspil-ldsp")) {
+                modalSystem.close("raspil-ldsp");
+            }
+            modal.style.display = 'flex';
+            modal.classList.toggle('active');
+        }
+    }
+
+
+    function initRaspilovka() {
+        const modal = document.querySelector("#raspilovka-contact-us");
+        if (!modal) return;
+
+        closeRaspilovka(modal);
+
+        document.addEventListener('click', toggleRaspilovka);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const m = document.querySelector("#raspilovka-contact-us");
+                if (m) closeRaspilovka(m);
+            }
+        });
+    }
+
 
     document.querySelectorAll(".btn-filter").forEach((button) => {
         button.addEventListener("click", (e) => {
@@ -351,6 +466,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     //Инициализация аккордеона на странице design_project (Дизайн проект)
     const accordion = new Accordion(".design-aq-list", { closeOthers: false, })
+
+    bannerEventBinding();
+    initRaspilovka();
 
     let resizeTimeout;
     window.addEventListener('resize', function () {
