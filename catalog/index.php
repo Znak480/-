@@ -8,6 +8,7 @@ $APPLICATION->SetTitle("Каталог товаров для стройки и �
 	"bitrix:catalog",
 	"base_catalog",
 	Array(
+		"PB_HL_ID" => 7,
 		"ACTION_VARIABLE" => "action",
 		"ADD_ELEMENT_CHAIN" => "Y",
 		"ADD_PICT_PROP" => "-",

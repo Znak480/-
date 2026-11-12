@@ -7,7 +7,7 @@
     padding-inline: var(--spacing-sm);
     background: var(--badge-color);
     display: flex;
-    align-self: center;
+    /* align-self: center; */
     justify-content: center;
     border-radius: 4px;
 }
@@ -30,6 +30,10 @@
 
 .badge--sale {
     --badge-color: #E31E24;
+}
+
+.badge--season{
+    --badge-color: #729e00;
 }
 
 .badge-label {

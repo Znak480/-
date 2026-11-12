@@ -1,6 +1,8 @@
 <?php 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die(); 
 
+global $APPLICATION;
+
 use Bitrix\Main\Page\Asset;
 use Bitrix\Main\Localization\Loc;
 
@@ -9,6 +11,7 @@ Loc::loadMessages(__FILE__);
 Asset::getInstance()->addCss("https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css");
 Asset::getInstance()->addCss("https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css");
 Asset::getInstance()->addCss('https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css');
+Asset::getInstance()->addCss("https://cdn.jsdelivr.net/gh/fibit/swiper-mouseover@main/swiper-mouseover.min.css");
 
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/variables.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/normalize.css");
@@ -20,10 +23,12 @@ Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/main.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/account.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/product-item.css");
 Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/cart.css");
+Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . "/assets/css/modal.css");
 
 Asset::getInstance()->addJs("https://code.jquery.com/jquery-3.7.1.min.js");
 Asset::getInstance()->addJs("https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js");
 Asset::getInstance()->addJs('https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js');
+Asset::getInstance()->addJs('https://cdn.jsdelivr.net/gh/fibit/swiper-mouseover@main/swiper-mouseover.min.js');
 ?>
 
 <!DOCTYPE html>

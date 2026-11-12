@@ -468,4 +468,41 @@ if (!empty($arResult['ITEMS']))
 }
 
 
+use Bitrix\Main\Loader;
+use Bitrix\Highloadblock as HL;
+use Bitrix\Main\Entity;
+
+Loader::includeModule("highloadblock");
+
+$hlblockId = $arParams["PB_HL_ID"] ?? 1;
+
+$hlblock = HL\HighloadBlockTable::getById($hlblockId)->fetch();
+
+if (!$hlblock) {
+    die('Highload-блок не найден');
+}
+
+$entity = HL\HighloadBlockTable::compileEntity($hlblock);
+$entityDataClass = $entity->getDataClass();
+
+$result = $entityDataClass::getList([
+    'select' => ['ID', 'UF_NAME', 'UF_SECTIONS', "UF_PHOTO"],
+	'filter' => ['UF_SECTIONS' => $arResult["ID"]],
+	'limit'  => 1, 
+])->fetch();
+
+$arResult["BANNER"] = [];
+
+if ($result) {
+    $fileId = (int)$result['UF_PHOTO'];
+    $src    = $fileId > 0 ? \CFile::GetPath($fileId) : '';
+
+    $arResult["BANNER"] = [
+        'ID'         => (int)$result['ID'],
+		'NAME'		 => $result["UF_NAME"],
+        'BANNER_ID'  => $fileId,
+        'SRC'        => $src,
+        'SECTIONS'   => (array)$result['UF_SECTIONS'],
+    ];
+}
 ?>

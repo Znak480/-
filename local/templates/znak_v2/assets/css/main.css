@@ -1635,7 +1635,7 @@
     gap: 12px;
 }
 
-.raspilovka-hero-content .btn{
+.raspilovka-hero-content [data-entity="btn-raspilovka"]{
     --btn-padding-block: 10px;
     --btn-padding-inline: 24px;
     width: 100%;
@@ -1789,11 +1789,11 @@
         filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.3));
         min-height:auto;
         width: 50% ;
-        padding: 32px;
+        padding: 32px 90px 32px 32px;
         background: none;
         z-index: 3;
     }
-    .raspilovka-hero-content .btn{
+    .raspilovka-hero-content [data-entity="btn-raspilovka"]{
         --btn-padding-block: 12px;
         --btn-padding-inline: 24px;
 
@@ -1895,4 +1895,94 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+}
+
+.raspilovka-contact-us {
+    display: none;             
+    background-color: #fff;
+    padding: 28px 20px;
+    flex-direction: column;
+    border-radius: 16px;
+    color: var(--text-secondary-color);
+    min-width: 290px;
+    
+    position: absolute;
+    bottom: 0;
+    right: 25%;
+    z-index: 4;
+    transform: translate(50%, -25%);
+    
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    
+    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+}
+
+.raspilovka-contact-us.open {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 102;
+    transform: translate(-50%, -50%) scale(1);
+    
+    opacity: 101;
+    visibility: visible;
+    pointer-events: auto;
+    bottom: auto;
+}
+
+.raspilovka-contact-us.active {
+    display: flex;             
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(50%, -25%) scale(1);
+}
+
+.raspilovka-contact-us.active .modal-close{
+    display: none;
+}
+
+.raspilovka-contact-us:not(.active):not(.open) {
+    transform: translate(50%, -25%) scale(0.95);
+}
+
+.raspilovka-contact-us .contact-us-phone{
+    margin: 0;
+    text-align: center;
+    text-wrap: nowrap;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-2xl);
+    margin-block-end: 12px;
+}
+
+.raspilovka-contact-us .contact-us-content{
+    display: flex;
+    flex-direction: column;
+    margin-block-end: 12px;
+}
+
+.raspilovka-contact-us .contact-us-content > ul{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    list-style-type:none;
+    gap: 8px;
+}
+
+.raspilovka-contact-us .contact-us-content > .contact-us-content-label{
+    font-weight: 500;
+    font-size: 16px;
+    margin-block-end: 12px;
+}
+
+.contact-us-times > .contact-us-times-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 14px;
 }

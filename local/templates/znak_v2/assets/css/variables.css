@@ -1,6 +1,7 @@
 :root{
 
     --color-primary:rgba(36, 64, 130, 1);
+    --color-secondary:rgba(237, 237, 237, 1) ;
     --color-error: rgba(227, 30, 36, 1);
     --color-accent: rgba(254, 204, 0, 1);
     --color-neutral: rgba(240,240,240, 1);

@@ -19,7 +19,7 @@ $APPLICATION->SetTitle("Распиловка ЛДСП");
         ),
         false
     );?>
-    
+
     <section class="section raspilovka-ldsp">
         <!-- Hero блок -->
         <div class="raspilovka-hero">
@@ -43,6 +43,23 @@ $APPLICATION->SetTitle("Распиловка ЛДСП");
                     <div class="raspilovka-hero-actions">
                         <button class="btn btn-primary" data-entity="btn-raspilovka">Записаться на услугу</button>
                     </div>
+
+                    <div id="raspilovka-contact-us" class="raspilovka-contact-us active">
+                        <h3 class="contact-us-phone">+7 385 236-40-80</h3>
+                        <div class="contact-us-content">
+                            <span class="contact-us-content-label">Вы можете связаться с нами по телефону в:</span>
+                            <ul class="contact-us-times">
+                                <li class="contact-us-times-item">
+                                    <span class="contact-us-times-days">Пн — Сб</span><span class="contact-us-times-hour">09:00–20:00</span>
+                                </li>
+                                <li class="contact-us-times-item">
+                                    <span class="contact-us-times-days">Воскресенье</span><span class="contact-us-times-hour">09:00–19:00</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-sm btn-primary modal-close" data-close>Закрыть</button>
+                    </div>
+
                 </div>
             </div>
         </div>

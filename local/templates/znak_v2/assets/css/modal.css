@@ -1,0 +1,110 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    z-index: 1000;
+
+    width: 90%;
+    max-width: 680px;
+    min-width: 300px;
+    max-height: 90vh;
+
+    background-color: #fff;
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+ 
+
+    /* Открытое состояние */
+    &.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Заголовок */
+    .modal-header {
+        padding: 16px 24px ;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+        padding: 4px 8px;
+        transition: color 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+        color: #333;
+    }
+
+    .modal-body {
+        padding-inline: 24px ;
+        flex: 1; 
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+  
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 16px 24px ;
+        border-top: 1px solid #eee;
+        flex-shrink: 0;
+        flex-wrap: wrap; 
+    }
+
+    
+    .modal-footer .btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+    }
+
+    .modal-footer .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .modal-footer .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .modal-footer .btn-secondary {
+        background-color: #e9ecef;
+        color: #333;
+    }
+
+    .modal-footer .btn-secondary:hover {
+        background-color: #dee2e6;
+    }
+}

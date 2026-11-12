@@ -116,7 +116,7 @@ class ProductBadgeManager
         // Акция - самый высокий приоритет
         $this->addRule([
             'property' => 'AKTSIYA_',
-            'priority' => 100,
+            'priority' => 90,
             'callback' => function($value) {
                 return [
                     'class' => 'badge--sale',
@@ -129,7 +129,7 @@ class ProductBadgeManager
         // Рейтинг продаж
         $this->addRule([
             'property' => 'RAITING_PRODAZH',
-            'priority' => 90,
+            'priority' => 80,
             'map' => [
                 'Эксклюзив' => ['class' => 'badge--exclusive', 'text' => 'Эксклюзив', 'type' => 'exclusive'],
                 'Рекомендуем' => ['class' => 'badge--recomended', 'text' => 'Рекомендуем', 'type' => 'recommended'],
@@ -160,6 +160,18 @@ class ProductBadgeManager
                     'class' => 'badge--best-price',
                     'text' => 'Лучшая цена',
                     'type' => 'best-price'
+                ];
+            }
+        ]);
+
+        $this->addRule([
+            'property' => 'SEZONNYY_TOVAR',
+            'priority' => 100,
+            'callback' => function($value){
+                return [
+                    'class' => 'badge--season',
+                    'text' => 'Сезонный товар',
+                    'type' => 'season-product'
                 ];
             }
         ]);

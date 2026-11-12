@@ -12,7 +12,7 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
-<aside class="catalog-filter-sidebar">
+<aside data-element="sticky" class="catalog-filter-sidebar">
 	<div class="catalog-filter-sidebar-wrapper smartfilter" >
 		<div class="catalog-filter-header">
 			<h3 class="filter-title">Фильтры</h3>
