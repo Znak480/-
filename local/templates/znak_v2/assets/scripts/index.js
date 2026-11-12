@@ -288,6 +288,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
         selector: ".catalog-filter-sidebar",
     });
 
+    //TODO: реализовать корректное отображение номера телефона
+    //Добавить в модальное окно номер телефона
+    modalSystem.register({
+        id: "raspil-ldsp",
+        title: "Хотите заказать услугу, позвоните нам",
+        content: '<a href="tel:" class="phone-number">tel:</a>'
+    });
+
+
+    document.addEventListener("click", function (el) {
+        const button = el.target.closest('[data-entity="btn-raspilovka"]');
+
+        if(!button) return;
+
+        modalSystem.open("raspil-ldsp");
+    });
+
+    
+
     document.querySelectorAll(".btn-filter").forEach((button) => {
         button.addEventListener("click", (e) => {
             e.preventDefault();

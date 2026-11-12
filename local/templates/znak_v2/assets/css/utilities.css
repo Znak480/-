@@ -473,3 +473,9 @@
     flex-direction: row;
     margin-block-start: var(--spacing-md);
 }
+
+[no-title] .breadcrumb  .breadcrumb-title{
+    display:none !important;
+    opacity:0;
+    visibility:hidden;
+}
