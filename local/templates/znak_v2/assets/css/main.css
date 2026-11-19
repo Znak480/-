@@ -1986,3 +1986,263 @@
     font-weight: 700;
     font-size: 14px;
 }
+
+/* === CONTACT PAGE STYLE START === */
+[data-page="contacts"] .section{
+    padding-block-start: 20px;
+}
+
+.contacts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px; 
+    margin: 0 auto;
+}
+
+.contact-card {
+    display: flex; 
+    gap: 16px;
+}
+
+.contact-info {
+    flex: 1.5; 
+    border-radius: 8px;
+    padding: 24px 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    background-color: #F0F0F0;
+}
+
+.contact-info-title {
+    color: var(--color-primary); 
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.contact-info-description {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #6E6E6E;
+}
+
+.contact-info-description address {
+    font-style: normal;
+    margin-bottom: 14px;
+}
+
+.contact-info-description p {
+    margin: 4px 0;
+}
+
+.contact-info-description > *:last-child,
+.contact-info-description p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-info-description a {
+    color: inherit; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info-description a:hover {
+    text-decoration: underline;
+    color: var(--color-primary);
+}
+
+.contact-image {
+    flex: 1; 
+    display: flex;
+    align-items: stretch; 
+}
+
+.contact-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    border-radius: 8px; 
+    display: block;
+}
+
+[data-entity="wholesale-goods"] .contact-info,
+[data-entity="warehouses"] .contact-info {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+[data-entity="wholesale-goods"] .contact-info .contact-info-title,
+[data-entity="warehouses"] .contact-info .contact-info-title { 
+    margin-bottom: 0; 
+}
+
+[data-entity="wholesale-goods"] .contact-info .contact-info-description,
+[data-entity="warehouses"] .contact-info .contact-info-description { 
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+[data-entity="wholesale-goods"] .contact-info .contact-info-description p,
+[data-entity="warehouses"] .contact-info .contact-info-description p { 
+    margin: 0; 
+}
+
+.company-detail {
+    flex: 1; 
+    background-color: #F0F0F0;
+    border-radius: 8px;
+    padding: 42px;
+    color: #6E6E6E;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.company-detail-title {
+    color: var(--color-primary);
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.company-detail p {
+    margin: 4px 0;
+    font-size: 17px;
+}
+
+.company-detail a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.company-detail a:hover {
+    text-decoration: underline;
+    color: var(--color-primary);
+}
+
+.company-requisites {
+    margin-top: 20px;
+}
+
+.requisites-label {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 20px !important;
+    margin-top: 0 !important;
+    margin-bottom: 4px;
+}
+
+.company-detail p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 991px) {
+    .contact-info {
+        padding: 30px 24px;
+    }
+
+    .company-detail {
+        padding: 30px 24px;
+    }
+
+    .contact-info-title {
+        font-size: 22px;
+    }
+
+    .company-detail-title {
+        font-size: 22px;
+    }
+
+    .contact-info-description,
+    .company-detail p {
+        font-size: 16px;
+    }
+
+    .requisites-label {
+        font-size: 18px !important;
+    }
+    
+    .contact-image {
+        flex: 1;
+    }
+}
+
+@media (max-width: 767px) {
+    .contacts-wrapper {
+        gap: 20px;
+    }
+
+    .contact-card {
+        flex-direction: column; 
+        gap: 12px;
+    }
+
+    .contact-info,
+    .company-detail {
+        flex: none; 
+        width: 100%;
+        padding: 24px 20px;
+        justify-content: flex-start;
+    }
+
+    .contact-image {
+        width: 100%;
+        height: 240px; 
+    }
+
+    .contact-image img {
+        border-radius: 8px;
+    }
+
+    [data-entity="wholesale-goods"] .contact-info,
+    [data-entity="warehouses"] .contact-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    [data-entity="wholesale-goods"] .contact-info .contact-info-description,
+    [data-entity="warehouses"] .contact-info .contact-info-description {
+        display: block;
+    }
+
+    .contact-info-title {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .company-detail-title {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+    .contact-info-description,
+    .company-detail p {
+        font-size: 15px;
+    }
+
+    .requisites-label {
+        font-size: 17px !important;
+        margin-top: 10px !important;
+    }
+
+    .company-requisites {
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-info,
+    .company-detail {
+        padding: 20px 16px;
+    }
+
+    .contact-image {
+        height: 200px;
+    }
+
+}
+/* === CONTACT PAGE STYLE END === */

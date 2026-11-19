@@ -4,6 +4,13 @@ if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true)die();
 use Bitrix\Main\Context;
 
 class ZnakCatalogProductComponent extends CBitrixComponent{
+    private const int DEFAULT_CACHE_TTL = 3600;
+    private const int DEFAULT_POOL_SIZE = 100;
+
+    private string $cacheId;
+    private int $cacheTtl;
+    private int $poolSize;
+
     public function onPrepareComponentParams($arParams){
         $arParams['ELEMENTS_COUNT'] = intval($arParams['ELEMENTS_COUNT']) ?: 4;
         $arParams['IBLOCK_ID'] = intval($arParams['IBLOCK_ID']) ?: 0;
@@ -12,9 +19,12 @@ class ZnakCatalogProductComponent extends CBitrixComponent{
     }
 
     public function executeComponent(){
-       if (!\CModule::IncludeModule('iblock')) {
+        if (!\CModule::IncludeModule('iblock')) {
             return;
         }
+
+        $this->cacheTtl = $this->arParams['CACHE_TIME'] ?? self::DEFAULT_CACHE_TTL;
+        $this->poolSize  = $this->arParams['CACHE_POOL_SIZE'] ?? self::DEFAULT_POOL_SIZE;
         $this->arResult['ITEMS'] = $this->getProducts();
 
         foreach ($this->arResult['ITEMS'] as &$item) {
@@ -35,84 +45,97 @@ class ZnakCatalogProductComponent extends CBitrixComponent{
     }
 
     private function getProducts(){
-        $products = [];
+        $cache = \Bitrix\Main\Application::getInstance()->getManagedCache();
+
+        $cityId    = (int)($GLOBALS['currentCity']['PRICE_ID']['VALUE'] ?? 0);
+        $priceCode = $GLOBALS['currentCity']['PRICE_CODE']['VALUE'] ?? 'BASE';
+
+        $this->cacheId = 'hits_pool_' . md5(serialize([
+            $this->arParams['IBLOCK_ID'],
+            $this->arParams['FILTER'],
+            $cityId,
+            $this->arParams['ELEMENTS_COUNT'],
+            $this->arParams['SORT_BY'],
+            $this->arParams['SORT_ORDER'],
+        ]));
+
         $arFilter = [
-            "IBLOCK_ID" => $this->arParams["IBLOCK_ID"],
+            "IBLOCK_ID"   => $this->arParams["IBLOCK_ID"],
             "ACTIVE_DATE" => "Y",
-            "ACTIVE" => "Y",
-            '!NAME' => false,
+            "ACTIVE"      => "Y",
+            '!NAME'       => false,
         ];
 
         if (!empty($this->arParams['FILTER'])) {
             $arFilter = array_merge($arFilter, $this->arParams['FILTER']);
         }
 
-        $arSort = [];
-        if ($this->arParams['SORT_BY'] == 'RAND') {
-            $arSort = ["RAND" => "RAND"];
-        } else {
-            $arSort = [
-                $this->arParams['SORT_BY'] => $this->arParams['SORT_ORDER']
-            ];
-        }
-
-        $arSelect = array(
+        $arSelect = [
             "ID",
             "NAME",
             "IBLOCK_SECTION_ID",
             "DATE_ACTIVE_FROM",
             "PREVIEW_PICTURE",
             "DETAIL_PAGE_URL",
-            "CATALOG_GROUP_" . $GLOBALS['currentCity']['PRICE_ID']['VALUE'],
+            "CATALOG_GROUP_" . $cityId,
             "PROPERTY_SALE",
             "PROPERTY_DISCOUNT",
             "PROPERTY_HIT",
             "PROPERTY_RAITING_PRODAZH",
             "PROPERTY_AKTSIYA_",
             "PROPERTY_SKIDKA_PO_KARTE_",
-        );
+        ];
+   
+        if ($cache->read($this->cacheTtl, $this->cacheId)) {
+            $products = $cache->get($this->cacheId);
+        }else{
+            $products = [];
 
-        $res = CIBlockElement::GetList(
-            $arSort, 
-            $arFilter, 
-            false, 
-            array("nTopCount" => $this->arParams['ELEMENTS_COUNT']), 
-            $arSelect
-        );
-        
-        while ($ob = $res->GetNextElement()) {
-            $arFields = $ob->GetFields();
-            $arProps = $ob->GetProperties();
-            
-            $priceId = $GLOBALS['currentCity']['PRICE_ID']['VALUE'];
-            $priceCode = $GLOBALS['currentCity']['PRICE_CODE']['VALUE'];
-            
-            $priceValue = $arFields['CATALOG_PRICE_' . $priceId];
-            
-            $arFields['PRICES'] = array(
-                $priceCode => array(
-                    "VALUE" => $priceValue,
-                    "PRINT_VALUE" => $priceValue . " р."
-                )
+            $res = CIBlockElement::GetList(
+                [],
+                $arFilter,
+                false,
+                ["nTopCount" => $this->poolSize],
+                $arSelect
             );
             
-            $arFields['PROPERTIES'] = $arProps;
-            
-            $arFields['ITEM_PRICES'] = array(
-                array(
-                    "PRICE" => $priceValue,
-                    "PRINT_PRICE" => $priceValue . " р."
-                )
-            );
-            
-            if ($arFields['PREVIEW_PICTURE']) {
-                $arFields['PREVIEW_PICTURE'] = CFile::GetFileArray($arFields['PREVIEW_PICTURE']);
+            while ($ob = $res->GetNextElement()) {
+                $arFields = $ob->GetFields();
+                $arProps  = $ob->GetProperties();
+
+                $priceValue = $arFields['CATALOG_PRICE_' . $cityId] ?? null;
+
+                $arFields['PRICES'] = [
+                    $priceCode => [
+                        "VALUE"       => $priceValue,
+                        "PRINT_VALUE" => $priceValue !== null ? $priceValue . " р." : "",
+                    ],
+                ];
+
+                $arFields['PROPERTIES'] = $arProps;
+
+                $arFields['ITEM_PRICES'] = [
+                    [
+                        "PRICE"       => $priceValue,
+                        "PRINT_PRICE" => $priceValue !== null ? $priceValue . " р." : "",
+                    ],
+                ];
+
+                if ($arFields['PREVIEW_PICTURE']) {
+                    $arFields['PREVIEW_PICTURE'] = CFile::GetFileArray($arFields['PREVIEW_PICTURE']);
+                }
+
+                $products[] = $arFields;   
             }
-            
-            $products[] = $arFields;
+            $cache->set($this->cacheId, $products);
         }
 
-        return $products;
+        if($this->arParams["SORT_BY"] === "RAND" && !empty($products)){
+            shuffle($products);
+        }
+        
+        $limit = max(1, (int)$this->arParams['ELEMENTS_COUNT']);
+        return array_slice($products, 0, $limit);
     }
 
     private function getItemBadge($item){
